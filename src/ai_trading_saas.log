@@ -1,0 +1,92 @@
+2025-07-04 17:48:29,817 - __main__ - INFO - ✅ Default data initialized successfully
+2025-07-04 17:48:29,818 - services.ai_trading_engine - INFO - 🚀 AI Trading Engine started successfully
+2025-07-04 17:48:29,819 - __main__ - INFO - 🚀 AI Trading SaaS Platform initialized successfully
+2025-07-04 17:48:29,819 - __main__ - INFO - 🌐 Starting AI Trading SaaS Platform on 0.0.0.0:5000
+2025-07-04 17:48:29,826 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://169.254.0.21:5000
+2025-07-04 17:48:29,826 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-04 17:49:12,921 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:12] "GET / HTTP/1.1" 200 -
+2025-07-04 17:49:12,981 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:12] "GET /assets/index-DXWYhhz_.js HTTP/1.1" 200 -
+2025-07-04 17:49:12,983 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:12] "GET /assets/index-Cj7Axjis.css HTTP/1.1" 200 -
+2025-07-04 17:49:13,061 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:13] "[36mGET /assets/index-Cj7Axjis.css HTTP/1.1[0m" 304 -
+2025-07-04 17:49:13,109 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:13] "GET /favicon.ico HTTP/1.1" 200 -
+2025-07-04 17:49:13,116 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:13] "[36mGET /favicon.ico HTTP/1.1[0m" 304 -
+2025-07-04 17:49:23,994 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:23] "HEAD / HTTP/1.1" 200 -
+2025-07-04 17:49:24,002 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:24] "GET / HTTP/1.1" 200 -
+2025-07-04 17:49:52,454 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:49:52] "GET / HTTP/1.1" 200 -
+2025-07-04 17:50:01,390 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:50:01] "GET / HTTP/1.1" 200 -
+2025-07-04 17:50:01,484 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:50:01] "GET /assets/index-DXWYhhz_.js HTTP/1.1" 200 -
+2025-07-04 17:50:01,492 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:50:01] "GET /assets/index-Cj7Axjis.css HTTP/1.1" 200 -
+2025-07-04 17:50:02,449 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:50:02] "GET /favicon.ico HTTP/1.1" 200 -
+2025-07-04 17:50:02,660 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:50:02] "[36mGET /favicon.ico HTTP/1.1[0m" 304 -
+2025-07-04 17:50:21,539 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:50:21] "[31m[1mPOST /api/auth/login HTTP/1.1[0m" 400 -
+2025-07-04 17:52:04,415 - main - INFO - ✅ Default data initialized successfully
+2025-07-04 17:52:04,416 - services.ai_trading_engine - INFO - 🚀 AI Trading Engine started successfully
+2025-07-04 17:52:04,417 - main - INFO - 🚀 AI Trading SaaS Platform initialized successfully
+2025-07-04 17:52:05,221 - services.auth_service - INFO - ✅ User logged in successfully: admin@aitradingpro.com
+2025-07-04 17:52:05,643 - services.auth_service - INFO - ✅ User registered successfully: test@example.com
+2025-07-04 17:52:06,042 - services.auth_service - INFO - ✅ User logged in successfully: test@example.com
+2025-07-04 17:52:36,364 - __main__ - INFO - ✅ Default data initialized successfully
+2025-07-04 17:52:36,365 - services.ai_trading_engine - INFO - 🚀 AI Trading Engine started successfully
+2025-07-04 17:52:36,366 - __main__ - INFO - 🚀 AI Trading SaaS Platform initialized successfully
+2025-07-04 17:52:36,366 - __main__ - INFO - 🌐 Starting AI Trading SaaS Platform on 0.0.0.0:5000
+2025-07-04 17:52:36,372 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://169.254.0.21:5000
+2025-07-04 17:52:36,372 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-07-04 17:53:09,575 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:53:09] "GET / HTTP/1.1" 200 -
+2025-07-04 17:53:09,605 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:53:09] "GET /assets/index-2nYKrXBY.js HTTP/1.1" 200 -
+2025-07-04 17:53:09,613 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:53:09] "GET /assets/index-Cj7Axjis.css HTTP/1.1" 200 -
+2025-07-04 17:53:09,747 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:53:09] "[36mGET /assets/index-Cj7Axjis.css HTTP/1.1[0m" 304 -
+2025-07-04 17:53:36,736 - services.auth_service - INFO - ✅ User logged in successfully: admin@aitradingpro.com
+2025-07-04 17:53:36,737 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:53:36] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-04 17:54:53,266 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:54:53] "GET / HTTP/1.1" 200 -
+2025-07-04 17:54:53,299 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:54:53] "GET /assets/index-2nYKrXBY.js HTTP/1.1" 200 -
+2025-07-04 17:54:53,306 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:54:53] "GET /assets/index-Cj7Axjis.css HTTP/1.1" 200 -
+2025-07-04 17:54:53,423 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:54:53] "[31m[1mGET /api/auth/profile HTTP/1.1[0m" 401 -
+2025-07-04 17:54:53,430 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:54:53] "[36mGET /assets/index-Cj7Axjis.css HTTP/1.1[0m" 304 -
+2025-07-04 17:55:23,846 - services.auth_service - INFO - ✅ User logged in successfully: admin@aitradingpro.com
+2025-07-04 17:55:23,847 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:55:23] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-04 17:56:08,982 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:08] "GET / HTTP/1.1" 200 -
+2025-07-04 17:56:09,017 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:09] "GET /assets/index-O0eCryed.js HTTP/1.1" 200 -
+2025-07-04 17:56:09,019 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:09] "GET /assets/index-Cj7Axjis.css HTTP/1.1" 200 -
+2025-07-04 17:56:09,160 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:09] "[36mGET /assets/index-Cj7Axjis.css HTTP/1.1[0m" 304 -
+2025-07-04 17:56:09,162 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:09] "[31m[1mGET /api/auth/profile HTTP/1.1[0m" 401 -
+2025-07-04 17:56:39,855 - services.auth_service - INFO - ✅ User logged in successfully: admin@aitradingpro.com
+2025-07-04 17:56:39,856 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:39] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-04 17:56:39,962 - routes.trading_routes - ERROR - ❌ Error in get_portfolio endpoint: 'Portfolio' object has no attribute 'total_return'
+2025-07-04 17:56:39,962 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:39] "[35m[1mGET /api/trading/portfolio HTTP/1.1[0m" 500 -
+2025-07-04 17:56:39,978 - routes.trading_routes - ERROR - ❌ Error in get_trading_signals endpoint: type object 'TradingSignal' has no attribute 'created_at'
+2025-07-04 17:56:39,979 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:39] "[35m[1mGET /api/trading/signals HTTP/1.1[0m" 500 -
+2025-07-04 17:56:40,004 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:40] "GET /api/trading/ai-engine/status HTTP/1.1" 200 -
+2025-07-04 17:56:55,840 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:55] "[31m[1mGET /api/trading/signals HTTP/1.1[0m" 401 -
+2025-07-04 17:56:55,841 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 17:56:55] "[31m[1mGET /api/trading/assets HTTP/1.1[0m" 401 -
+2025-07-04 18:00:43,349 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:00:43] "HEAD / HTTP/1.1" 200 -
+2025-07-04 18:00:43,358 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:00:43] "GET / HTTP/1.1" 200 -
+2025-07-04 18:01:16,859 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:01:16] "GET / HTTP/1.1" 200 -
+2025-07-04 18:01:16,941 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:01:16] "GET /assets/index-Cj7Axjis.css HTTP/1.1" 200 -
+2025-07-04 18:01:16,941 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:01:16] "GET /assets/index-O0eCryed.js HTTP/1.1" 200 -
+2025-07-04 18:01:17,474 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:01:17] "GET /favicon.ico HTTP/1.1" 200 -
+2025-07-04 18:01:44,110 - services.auth_service - INFO - ✅ User registered successfully: primus.vekuh@gmail.com
+2025-07-04 18:01:44,112 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:01:44] "[35m[1mPOST /api/auth/register HTTP/1.1[0m" 201 -
+2025-07-04 18:02:13,995 - services.auth_service - INFO - ✅ User logged in successfully: primus.vekuh@gmail.com
+2025-07-04 18:02:13,996 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:13] "POST /api/auth/login HTTP/1.1" 200 -
+2025-07-04 18:02:14,146 - routes.trading_routes - ERROR - ❌ Error in get_portfolio endpoint: 'Portfolio' object has no attribute 'total_return'
+2025-07-04 18:02:14,147 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:14] "[35m[1mGET /api/trading/portfolio HTTP/1.1[0m" 500 -
+2025-07-04 18:02:14,209 - routes.trading_routes - ERROR - ❌ Error in get_trading_signals endpoint: type object 'TradingSignal' has no attribute 'created_at'
+2025-07-04 18:02:14,210 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:14] "[35m[1mGET /api/trading/signals HTTP/1.1[0m" 500 -
+2025-07-04 18:02:14,276 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:14] "GET /api/trading/ai-engine/status HTTP/1.1" 200 -
+2025-07-04 18:02:31,437 - routes.trading_routes - ERROR - ❌ Error in get_portfolio endpoint: 'Portfolio' object has no attribute 'total_return'
+2025-07-04 18:02:31,438 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:31] "[35m[1mGET /api/trading/portfolio HTTP/1.1[0m" 500 -
+2025-07-04 18:02:39,604 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:39] "[31m[1mPOST /api/trading/portfolio/fund HTTP/1.1[0m" 403 -
+2025-07-04 18:02:40,263 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:40] "[31m[1mPOST /api/trading/portfolio/fund HTTP/1.1[0m" 403 -
+2025-07-04 18:02:40,731 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:40] "[31m[1mPOST /api/trading/portfolio/fund HTTP/1.1[0m" 403 -
+2025-07-04 18:02:42,898 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:42] "[31m[1mPOST /api/trading/portfolio/fund HTTP/1.1[0m" 403 -
+2025-07-04 18:02:43,557 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:43] "[31m[1mPOST /api/trading/portfolio/fund HTTP/1.1[0m" 403 -
+2025-07-04 18:02:44,175 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:44] "[31m[1mPOST /api/trading/portfolio/fund HTTP/1.1[0m" 403 -
+2025-07-04 18:02:49,857 - routes.trading_routes - ERROR - ❌ Error in get_trading_signals endpoint: type object 'TradingSignal' has no attribute 'created_at'
+2025-07-04 18:02:49,858 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:49] "[35m[1mGET /api/trading/signals HTTP/1.1[0m" 500 -
+2025-07-04 18:02:49,870 - werkzeug - INFO - 10.125.156.1 - - [04/Jul/2025 18:02:49] "GET /api/trading/assets HTTP/1.1" 200 -
