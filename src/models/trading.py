@@ -143,6 +143,16 @@ class Portfolio(db.Model):
     positions = db.relationship('Position', backref='portfolio', cascade='all, delete-orphan')
     trades = db.relationship('Trade', backref='portfolio', cascade='all, delete-orphan')
     
+    @property
+    def balance(self):
+        """Compatibility property for cash_balance"""
+        return self.cash_balance
+    
+    @balance.setter
+    def balance(self, value):
+        """Compatibility setter for cash_balance"""
+        self.cash_balance = value
+    
     def add_funds(self, amount):
         """Add funds to portfolio"""
         self.cash_balance += amount

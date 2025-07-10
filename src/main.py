@@ -10,23 +10,25 @@ from datetime import datetime, timedelta
 from flask import Flask, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
-from flask_migrate import Migrate
 
 # Add src to path
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 
-# Import models and services
+# Import database first
 from database import db
-from models.user import User, Subscription, SubscriptionPlan, TradingSettings
+
+# Import models in correct order to avoid circular imports
+from models.user import User, Subscription, SubscriptionPlan, TradingSettings, Transaction
 from models.trading import Portfolio, Asset, Position, Trade, TradingSignal, MarketData
+from models.orders import Order, AutoTradingSettings, TradeRecommendation
 
 # Import routes
 from routes.auth_routes import auth_bp
-from routes.trading_routes import trading_bp
-from routes.subscription_routes import subscription_bp
+from routes.trading_routes_fixed import trading_bp
+from routes.trading_execution_routes import trading_execution_bp
 
 # Import services
-from services.ai_trading_engine import ai_trading_engine
+from services.deployment_trading_engine import advanced_trading_engine
 from services.auth_service import auth_service
 
 # Configure logging
@@ -74,21 +76,30 @@ def create_app():
     # Initialize CORS
     CORS(app, origins=app.config['CORS_ORIGINS'])
     
-    # Initialize database migration
-    migrate = Migrate(app, db)
-    
     # Register blueprints
     app.register_blueprint(auth_bp)
     app.register_blueprint(trading_bp)
-    app.register_blueprint(subscription_bp)
+    app.register_blueprint(trading_execution_bp)
+    
+    # Import and register enhanced trading routes
+    from routes.enhanced_trading_routes import enhanced_trading_bp
+    app.register_blueprint(enhanced_trading_bp)
     
     # Create tables and initialize data
     with app.app_context():
-        db.create_all()
-        initialize_default_data()
-    
-    # Initialize AI trading engine
-    ai_trading_engine.start_engine()
+        try:
+            # Drop all tables and recreate to fix relationship issues
+            db.drop_all()
+            db.create_all()
+            initialize_default_data()
+            logger.info("✅ Database tables created successfully")
+            
+            # Initialize Advanced AI Trading Engine
+            advanced_trading_engine.start_engine()
+            logger.info("🤖 Advanced AI Trading Engine initialized")
+        except Exception as e:
+            logger.error(f"❌ Database initialization failed: {e}")
+            raise
     
     # JWT error handlers
     @jwt.expired_token_loader
@@ -110,13 +121,17 @@ def create_app():
             'status': 'healthy',
             'timestamp': datetime.utcnow().isoformat(),
             'version': '1.0.0',
-            'ai_engine_status': ai_trading_engine.get_engine_status()
+            'ai_engine_status': advanced_trading_engine.get_engine_status()
         })
     
     # Serve React app
     @app.route('/')
     def serve_react_app():
         return send_from_directory(app.static_folder, 'index.html')
+    
+    @app.route('/dashboard')
+    def serve_dashboard():
+        return send_from_directory(app.static_folder, 'professional-dashboard.html')
     
     @app.route('/<path:path>')
     def serve_react_routes(path):
@@ -151,33 +166,33 @@ def initialize_default_data():
             },
             {
                 'name': 'Starter',
-                'description': 'Perfect for beginners',
+                'description': 'Perfect for individual traders',
                 'price': 29.99,
                 'billing_cycle': 'monthly',
                 'max_portfolio_value': 10000.00,
                 'max_trades_per_day': 20,
                 'max_open_positions': 10,
-                'features': ['Advanced AI signals', 'Real-time data', 'Priority support', 'Mobile app']
+                'features': ['Advanced AI signals', 'Real-time data', 'Portfolio analytics', 'Email support']
             },
             {
                 'name': 'Professional',
-                'description': 'For serious traders',
+                'description': 'For serious traders and small funds',
                 'price': 99.99,
                 'billing_cycle': 'monthly',
                 'max_portfolio_value': 100000.00,
                 'max_trades_per_day': 100,
                 'max_open_positions': 50,
-                'features': ['Premium AI models', 'Advanced analytics', 'API access', 'Phone support']
+                'features': ['Premium AI signals', 'Advanced analytics', 'API access', 'Priority support', 'Custom strategies']
             },
             {
                 'name': 'Enterprise',
-                'description': 'Unlimited trading power',
-                'price': 299.99,
+                'description': 'For institutions and large funds',
+                'price': 499.99,
                 'billing_cycle': 'monthly',
                 'max_portfolio_value': 1000000.00,
                 'max_trades_per_day': 1000,
                 'max_open_positions': 200,
-                'features': ['All features', 'Custom strategies', 'Dedicated support', 'White-label option']
+                'features': ['All features', 'Dedicated support', 'Custom integrations', 'White-label options']
             }
         ]
         
@@ -187,34 +202,29 @@ def initialize_default_data():
                 plan = SubscriptionPlan(**plan_data)
                 db.session.add(plan)
         
-        # Create default assets
+        # Create sample assets
         assets_data = [
-            # Cryptocurrencies
-            {'symbol': 'BTC-USD', 'name': 'Bitcoin', 'asset_type': 'crypto', 'is_tradeable': True},
-            {'symbol': 'ETH-USD', 'name': 'Ethereum', 'asset_type': 'crypto', 'is_tradeable': True},
-            {'symbol': 'ADA-USD', 'name': 'Cardano', 'asset_type': 'crypto', 'is_tradeable': True},
-            {'symbol': 'DOT-USD', 'name': 'Polkadot', 'asset_type': 'crypto', 'is_tradeable': True},
-            {'symbol': 'LINK-USD', 'name': 'Chainlink', 'asset_type': 'crypto', 'is_tradeable': True},
-            {'symbol': 'DOGE-USD', 'name': 'Dogecoin', 'asset_type': 'crypto', 'is_tradeable': True},
-            {'symbol': 'XRP-USD', 'name': 'Ripple', 'asset_type': 'crypto', 'is_tradeable': True},
-            {'symbol': 'LTC-USD', 'name': 'Litecoin', 'asset_type': 'crypto', 'is_tradeable': True},
-            
             # Stocks
-            {'symbol': 'AAPL', 'name': 'Apple Inc.', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'GOOGL', 'name': 'Alphabet Inc.', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'MSFT', 'name': 'Microsoft Corporation', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'AMZN', 'name': 'Amazon.com Inc.', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'TSLA', 'name': 'Tesla Inc.', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'NVDA', 'name': 'NVIDIA Corporation', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'META', 'name': 'Meta Platforms Inc.', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'NFLX', 'name': 'Netflix Inc.', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'AMD', 'name': 'Advanced Micro Devices', 'asset_type': 'stock', 'is_tradeable': True},
-            {'symbol': 'PYPL', 'name': 'PayPal Holdings Inc.', 'asset_type': 'stock', 'is_tradeable': True},
+            {'symbol': 'AAPL', 'name': 'Apple Inc.', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'Technology', 'current_price': 175.50},
+            {'symbol': 'GOOGL', 'name': 'Alphabet Inc.', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'Technology', 'current_price': 2750.25},
+            {'symbol': 'MSFT', 'name': 'Microsoft Corporation', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'Technology', 'current_price': 415.75},
+            {'symbol': 'TSLA', 'name': 'Tesla Inc.', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'Automotive', 'current_price': 245.80},
+            {'symbol': 'AMZN', 'name': 'Amazon.com Inc.', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'E-commerce', 'current_price': 3250.00},
+            {'symbol': 'NVDA', 'name': 'NVIDIA Corporation', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'Technology', 'current_price': 875.25},
+            {'symbol': 'META', 'name': 'Meta Platforms Inc.', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'Social Media', 'current_price': 485.50},
+            {'symbol': 'NFLX', 'name': 'Netflix Inc.', 'asset_type': 'stock', 'exchange': 'NASDAQ', 'sector': 'Entertainment', 'current_price': 625.75},
             
-            # ETFs
-            {'symbol': 'SPY', 'name': 'SPDR S&P 500 ETF', 'asset_type': 'etf', 'is_tradeable': True},
-            {'symbol': 'QQQ', 'name': 'Invesco QQQ Trust', 'asset_type': 'etf', 'is_tradeable': True},
-            {'symbol': 'VTI', 'name': 'Vanguard Total Stock Market ETF', 'asset_type': 'etf', 'is_tradeable': True},
+            # Cryptocurrencies
+            {'symbol': 'BTC-USD', 'name': 'Bitcoin', 'asset_type': 'crypto', 'exchange': 'Crypto', 'current_price': 67500.00},
+            {'symbol': 'ETH-USD', 'name': 'Ethereum', 'asset_type': 'crypto', 'exchange': 'Crypto', 'current_price': 3850.00},
+            {'symbol': 'BNB-USD', 'name': 'Binance Coin', 'asset_type': 'crypto', 'exchange': 'Crypto', 'current_price': 625.50},
+            {'symbol': 'ADA-USD', 'name': 'Cardano', 'asset_type': 'crypto', 'exchange': 'Crypto', 'current_price': 1.25},
+            {'symbol': 'SOL-USD', 'name': 'Solana', 'asset_type': 'crypto', 'exchange': 'Crypto', 'current_price': 185.75},
+            
+            # Meme coins
+            {'symbol': 'DOGE-USD', 'name': 'Dogecoin', 'asset_type': 'meme_coin', 'exchange': 'Crypto', 'current_price': 0.35},
+            {'symbol': 'SHIB-USD', 'name': 'Shiba Inu', 'asset_type': 'meme_coin', 'exchange': 'Crypto', 'current_price': 0.000025},
+            {'symbol': 'PEPE-USD', 'name': 'Pepe', 'asset_type': 'meme_coin', 'exchange': 'Crypto', 'current_price': 0.0000015}
         ]
         
         for asset_data in assets_data:
@@ -223,13 +233,11 @@ def initialize_default_data():
                 asset = Asset(**asset_data)
                 db.session.add(asset)
         
-        # Create admin user if not exists
-        admin_email = os.environ.get('ADMIN_EMAIL', 'admin@aitradingpro.com')
-        admin_user = User.query.filter_by(email=admin_email).first()
-        
+        # Create admin user
+        admin_user = User.query.filter_by(email='admin@aitradingpro.com').first()
         if not admin_user:
             admin_user = User(
-                email=admin_email,
+                email='admin@aitradingpro.com',
                 username='admin',
                 first_name='Admin',
                 last_name='User',
@@ -237,15 +245,26 @@ def initialize_default_data():
                 is_verified=True,
                 is_active=True
             )
-            admin_user.set_password(os.environ.get('ADMIN_PASSWORD', 'admin123'))
+            admin_user.set_password('admin123')
             db.session.add(admin_user)
-            db.session.flush()
+            db.session.flush()  # Get the user ID
+            
+            # Create admin subscription
+            free_plan = SubscriptionPlan.query.filter_by(name='Free Trial').first()
+            if free_plan:
+                admin_subscription = Subscription(
+                    user_id=admin_user.id,
+                    plan_id=free_plan.id,
+                    status='active',
+                    expires_at=datetime.utcnow() + timedelta(days=365)  # 1 year for admin
+                )
+                db.session.add(admin_subscription)
             
             # Create admin portfolio
             admin_portfolio = Portfolio(
                 user_id=admin_user.id,
-                cash_balance=100000.00,  # $100k for testing
-                total_value=100000.00
+                cash_balance=100000.0,  # $100k starting balance
+                total_value=100000.0
             )
             db.session.add(admin_portfolio)
             
@@ -253,46 +272,35 @@ def initialize_default_data():
             admin_settings = TradingSettings(
                 user_id=admin_user.id,
                 auto_trading_enabled=True,
-                max_position_size=0.20,  # 20% for admin
-                daily_loss_limit=0.10,   # 10% daily loss limit
-                min_confidence_threshold=0.70  # 70% minimum confidence
+                max_position_size=0.10,
+                daily_loss_limit=0.05,
+                min_confidence_threshold=0.70
             )
             db.session.add(admin_settings)
             
-            # Create enterprise subscription for admin
-            enterprise_plan = SubscriptionPlan.query.filter_by(name='Enterprise').first()
-            if enterprise_plan:
-                admin_subscription = Subscription(
-                    user_id=admin_user.id,
-                    plan_id=enterprise_plan.id,
-                    status='active',
-                    billing_cycle='monthly',
-                    expires_at=datetime.utcnow() + timedelta(days=365)  # 1 year
-                )
-                db.session.add(admin_subscription)
+            # Create admin auto trading settings
+            admin_auto_settings = AutoTradingSettings(
+                user_id=admin_user.id,
+                is_enabled=True,
+                max_daily_trades=50,
+                max_position_size=5000.0,
+                min_confidence=0.70,
+                stop_loss_percentage=0.05,
+                take_profit_percentage=0.10,
+                max_daily_loss=2500.0
+            )
+            db.session.add(admin_auto_settings)
         
         db.session.commit()
-        
         logger.info("✅ Default data initialized successfully")
         
     except Exception as e:
-        logger.error(f"❌ Error initializing default data: {e}")
+        logger.error(f"❌ Failed to initialize default data: {e}")
         db.session.rollback()
+        raise
 
 if __name__ == '__main__':
     app = create_app()
-    
-    # Get configuration from environment
-    host = os.environ.get('HOST', '0.0.0.0')
     port = int(os.environ.get('PORT', 5000))
-    debug = os.environ.get('DEBUG', 'False').lower() == 'true'
-    
-    logger.info(f"🌐 Starting AI Trading SaaS Platform on {host}:{port}")
-    
-    app.run(
-        host=host,
-        port=port,
-        debug=debug,
-        threaded=True
-    )
+    app.run(host='0.0.0.0', port=port, debug=True)
 

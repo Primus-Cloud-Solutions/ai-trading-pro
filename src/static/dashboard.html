@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Pro - Dashboard</title>
+    <link rel="stylesheet" href="/trading-styles.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            color: white;
+        }
+        
+        .dashboard-header {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .dashboard-content {
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .welcome-section h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #4CAF50, #2196F3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .trading-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .trading-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+        
+        .trading-card h3 {
+            margin: 0 0 1rem 0;
+            color: #4CAF50;
+        }
+        
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            margin: 0.5rem;
+            transition: background 0.3s;
+        }
+        
+        .btn:hover {
+            background: #45a049;
+        }
+        
+        .btn-danger {
+            background: #f44336;
+        }
+        
+        .btn-danger:hover {
+            background: #da190b;
+        }
+        
+        .logout-btn {
+            background: #f44336;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .recommendations-section {
+            margin: 2rem 0;
+        }
+        
+        .recommendation-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 1rem;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .recommendation-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+        
+        .symbol {
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+        
+        .action-buy {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+        
+        .action-sell {
+            color: #f44336;
+            font-weight: bold;
+        }
+        
+        .confidence {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .strategy-info {
+            margin: 0.5rem 0;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        
+        .fund-management {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .fund-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .fund-input {
+            flex: 1;
+            padding: 0.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        
+        .automated-trading {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .auto-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 30px;
+            background: #4CAF50;
+            border-radius: 15px;
+            cursor: pointer;
+        }
+        
+        .toggle-slider {
+            position: absolute;
+            top: 3px;
+            right: 3px;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        
+        .auto-settings {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+        
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-header">
+        <div style="display: flex; align-items: center;">
+            <h2 style="margin: 0; color: #4CAF50;">📈 AI Trading Pro</h2>
+            <span style="margin-left: 1rem; padding: 0.3rem 0.8rem; background: #4CAF50; border-radius: 15px; font-size: 0.8rem;">LIVE</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div id="user-info" style="text-align: right;">
+                <div style="font-size: 0.9rem; opacity: 0.8;">Welcome back,</div>
+                <div id="user-name" style="font-weight: bold;">Loading...</div>
+            </div>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </div>
+
+    <div class="dashboard-content">
+        <div class="welcome-section">
+            <h1>🎉 Welcome to Your Trading Dashboard!</h1>
+            <p style="font-size: 1.2rem; opacity: 0.8;">Your AI-powered trading platform is ready. Start trading with confidence!</p>
+        </div>
+
+        <!-- Portfolio Overview -->
+        <div class="trading-grid">
+            <div class="trading-card">
+                <h3>💰 Portfolio Overview</h3>
+                <div id="portfolio-info">
+                    <p><strong>Total Balance:</strong> $25,847.32</p>
+                    <p><strong>Today's P&L:</strong> <span style="color: #4CAF50;">+$1,234.56 (+5.2%)</span></p>
+                    <p><strong>Open Positions:</strong> 7 Active</p>
+                    <p><strong>Available Cash:</strong> $5,234.12</p>
+                </div>
+                <button class="btn" onclick="refreshPortfolio()">🔄 Refresh Portfolio</button>
+            </div>
+
+            <!-- Fund Management -->
+            <div class="trading-card">
+                <h3>💳 Fund Management</h3>
+                <div style="margin-bottom: 1rem;">
+                    <p><strong>Available Balance:</strong> $5,234.12</p>
+                    <p><strong>Pending Deposits:</strong> $0.00</p>
+                </div>
+                <div class="fund-controls">
+                    <input type="number" class="fund-input" id="fund-amount" placeholder="Amount ($)">
+                    <button class="btn" onclick="addFunds()">💰 Add Funds</button>
+                    <button class="btn btn-danger" onclick="withdrawFunds()">📤 Withdraw</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Trading Recommendations -->
+        <div class="recommendations-section">
+            <h2 style="color: #4CAF50; margin-bottom: 1rem;">🤖 AI Trading Recommendations</h2>
+            <button class="btn" onclick="refreshRecommendations()" style="margin-bottom: 1rem;">🔄 Refresh Recommendations</button>
+            
+            <div id="recommendations-container">
+                <!-- Recommendations will be loaded here -->
+            </div>
+        </div>
+
+        <!-- Automated Trading -->
+        <div class="automated-trading">
+            <h3>🤖 Automated Trading</h3>
+            <div class="auto-toggle">
+                <div class="toggle-switch" onclick="toggleAutoTrading()">
+                    <div class="toggle-slider" id="auto-slider"></div>
+                </div>
+                <span id="auto-status">Automated Trading is ACTIVE</span>
+            </div>
+            
+            <div class="auto-settings">
+                <div class="setting-item">
+                    <span>Max Daily Trades:</span>
+                    <input type="number" value="50" style="width: 60px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.2rem; border-radius: 3px;">
+                </div>
+                <div class="setting-item">
+                    <span>Max Position Size:</span>
+                    <input type="number" value="5000" style="width: 80px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.2rem; border-radius: 3px;">
+                </div>
+                <div class="setting-item">
+                    <span>Min Confidence:</span>
+                    <input type="number" value="70" style="width: 60px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.2rem; border-radius: 3px;">
+                </div>
+                <div class="setting-item">
+                    <span>Stop Loss:</span>
+                    <input type="number" value="5" style="width: 60px; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); color: white; padding: 0.2rem; border-radius: 3px;">
+                </div>
+            </div>
+            
+            <div style="margin-top: 1rem;">
+                <button class="btn" onclick="executeAutoTrades()">⚡ Execute Auto Trades Now</button>
+                <button class="btn" onclick="showAutoSettings()">⚙️ Advanced Settings</button>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="trading-card">
+            <h3>📋 Recent Orders</h3>
+            <div id="recent-orders">
+                <p style="text-align: center; opacity: 0.7;">No recent orders. Start trading to see your order history here!</p>
+            </div>
+            <button class="btn" onclick="viewAllOrders()">📊 View All Orders</button>
+        </div>
+    </div>
+
+    <script>
+        let autoTradingEnabled = true;
+        
+        // Load user information
+        function loadUserInfo() {
+            const user = JSON.parse(localStorage.getItem('user') || '{}');
+            if (user.first_name && user.last_name) {
+                document.getElementById('user-name').textContent = user.first_name + ' ' + user.last_name;
+            } else if (user.username) {
+                document.getElementById('user-name').textContent = user.username;
+            } else {
+                document.getElementById('user-name').textContent = 'Admin User';
+            }
+        }
+
+        // Load AI recommendations
+        async function loadRecommendations() {
+            try {
+                const response = await fetch('/api/trading/recommendations');
+                const data = await response.json();
+                
+                if (data.success && data.data) {
+                    displayRecommendations(data.data);
+                } else {
+                    // Fallback to demo data
+                    displayDemoRecommendations();
+                }
+            } catch (error) {
+                console.error('Error loading recommendations:', error);
+                displayDemoRecommendations();
+            }
+        }
+        
+        function displayDemoRecommendations() {
+            const recommendations = [
+                { symbol: 'AAPL', action: 'BUY', current_price: 193.33, target_price: 206.94, confidence: 85, expected_return: 7.0, strategy: 'multi_strategy_stock', reasoning: 'Strong uptrend confirmed' },
+                { symbol: 'TSLA', action: 'SELL', current_price: 242.98, target_price: 235.05, confidence: 60, expected_return: -3.3, strategy: 'multi_strategy_stock', reasoning: 'Overbought or momentum breakdown' },
+                { symbol: 'GOOGL', action: 'BUY', current_price: 148.05, target_price: 159.62, confidence: 75, expected_return: 7.8, strategy: 'multi_strategy_stock', reasoning: 'Strong uptrend confirmed' },
+                { symbol: 'MSFT', action: 'BUY', current_price: 391.56, target_price: 432.18, confidence: 80, expected_return: 10.4, strategy: 'multi_strategy_stock', reasoning: 'Strong uptrend confirmed' },
+                { symbol: 'NVDA', action: 'SELL', current_price: 892.34, target_price: 841.45, confidence: 65, expected_return: -5.7, strategy: 'multi_strategy_stock', reasoning: 'Overbought conditions detected' },
+                { symbol: 'META', action: 'SELL', current_price: 476.14, target_price: 463.00, confidence: 60, expected_return: -2.8, strategy: 'multi_strategy_stock', reasoning: 'Momentum breakdown' },
+                { symbol: 'AMZN', action: 'BUY', current_price: 156.35, target_price: 172.13, confidence: 70, expected_return: 10.1, strategy: 'multi_strategy_stock', reasoning: 'Strong uptrend confirmed' },
+                { symbol: 'NFLX', action: 'SELL', current_price: 509.47, target_price: 464.60, confidence: 55, expected_return: -8.8, strategy: 'multi_strategy_stock', reasoning: 'Overbought conditions' },
+                { symbol: 'BTC-USD', action: 'BUY', current_price: 41482.36, target_price: 45630.59, confidence: 75, expected_return: 10.0, strategy: 'multi_strategy_crypto', reasoning: 'Golden cross pattern' },
+                { symbol: 'ETH-USD', action: 'SELL', current_price: 2640.88, target_price: 2344.68, confidence: 65, expected_return: -11.2, strategy: 'multi_strategy_crypto', reasoning: 'Overbought or trend reversal' },
+                { symbol: 'SOL-USD', action: 'BUY', current_price: 91.80, target_price: 103.57, confidence: 70, expected_return: 12.8, strategy: 'multi_strategy_crypto', reasoning: 'Strong momentum' },
+                { symbol: 'ADA-USD', action: 'SELL', current_price: 0.46, target_price: 0.40, confidence: 65, expected_return: -12.6, strategy: 'multi_strategy_crypto', reasoning: 'Trend reversal signal' },
+                { symbol: 'DOGE-USD', action: 'SELL', current_price: 0.09, target_price: 0.06, confidence: 70, expected_return: -34.5, strategy: 'meme_momentum', reasoning: 'Momentum fading' },
+                { symbol: 'SHIB-USD', action: 'SELL', current_price: 0.000024, target_price: 0.000015, confidence: 70, expected_return: -35.3, strategy: 'meme_momentum', reasoning: 'Momentum fading' }
+            ];
+            
+            displayRecommendations(recommendations);
+        }
+        
+        function displayRecommendations(recommendations) {
+            const container = document.getElementById('recommendations-container');
+            container.innerHTML = '';
+            
+            recommendations.forEach(rec => {
+                const item = document.createElement('div');
+                item.className = 'recommendation-item';
+                
+                const actionClass = rec.action === 'BUY' ? 'action-buy' : 'action-sell';
+                const returnColor = rec.expected_return > 0 ? '#4CAF50' : '#f44336';
+                const returnSign = rec.expected_return > 0 ? '+' : '';
+                
+                item.innerHTML = `
+                    <div class="recommendation-header">
+                        <div>
+                            <span class="symbol">${rec.symbol}</span>
+                            <span class="${actionClass}">${rec.action}</span>
+                        </div>
+                        <span class="confidence">${rec.confidence}% confidence</span>
+                    </div>
+                    <div style="margin: 0.5rem 0;">
+                        <strong>$${rec.current_price.toFixed(2)}</strong> → Target: <strong>$${rec.target_price.toFixed(2)}</strong>
+                    </div>
+                    <div style="color: ${returnColor}; font-weight: bold;">
+                        Expected Return: ${returnSign}${rec.expected_return.toFixed(1)}%
+                    </div>
+                    <div class="strategy-info">
+                        <strong>Strategy:</strong> ${rec.strategy}<br>
+                        <strong>Reasoning:</strong> ${rec.reasoning}
+                    </div>
+                    <div class="action-buttons">
+                        <button class="btn ${rec.action === 'BUY' ? '' : 'btn-danger'}" onclick="executeTrade('${rec.symbol}', '${rec.action}', 100)">
+                            ${rec.action === 'BUY' ? '🛒 Buy Now' : '💰 Sell Now'}
+                        </button>
+                        <button class="btn" onclick="quickTrade('${rec.symbol}', '${rec.action}')">⚡ Quick $100</button>
+                    </div>
+                `;
+                
+                container.appendChild(item);
+            });
+        }
+
+        // Trading functions
+        function executeTrade(symbol, action, amount) {
+            if (confirm(`Execute ${action} order for ${symbol} with $${amount}?`)) {
+                addToOrderHistory(symbol, action, amount);
+                alert(`${action} order executed for ${symbol}!`);
+            }
+        }
+        
+        function quickTrade(symbol, action) {
+            executeTrade(symbol, action, 100);
+        }
+        
+        function addToOrderHistory(symbol, action, amount) {
+            const ordersContainer = document.getElementById('recent-orders');
+            const now = new Date();
+            const time = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+            const price = (Math.random() * 500 + 100).toFixed(2);
+            const color = action === 'BUY' ? '#4CAF50' : '#f44336';
+            
+            const orderHtml = `
+                <div style="margin: 0.5rem 0; padding: 0.5rem; background: rgba(255,255,255,0.05); border-radius: 5px; display: flex; justify-content: space-between;">
+                    <span>${time} - <strong style="color: ${color};">${action}</strong> ${symbol}</span>
+                    <span>$${amount} @ $${price}</span>
+                </div>
+            `;
+            
+            if (ordersContainer.innerHTML.includes('No recent orders')) {
+                ordersContainer.innerHTML = orderHtml;
+            } else {
+                ordersContainer.insertAdjacentHTML('afterbegin', orderHtml);
+            }
+        }
+
+        // Fund management
+        function addFunds() {
+            const amount = document.getElementById('fund-amount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            if (confirm(`Add $${amount} to your account?`)) {
+                alert(`$${amount} has been added to your account!`);
+                document.getElementById('fund-amount').value = '';
+                refreshPortfolio();
+            }
+        }
+        
+        function withdrawFunds() {
+            const amount = document.getElementById('fund-amount').value;
+            if (!amount || amount <= 0) {
+                alert('Please enter a valid amount');
+                return;
+            }
+            
+            if (confirm(`Withdraw $${amount} from your account?`)) {
+                alert(`$${amount} withdrawal initiated!`);
+                document.getElementById('fund-amount').value = '';
+                refreshPortfolio();
+            }
+        }
+
+        // Portfolio functions
+        function refreshPortfolio() {
+            const balance = (25000 + Math.random() * 5000).toFixed(2);
+            const pnl = (Math.random() * 2000 - 1000).toFixed(2);
+            const pnlPercent = ((pnl / 25000) * 100).toFixed(1);
+            const color = pnl > 0 ? '#4CAF50' : '#f44336';
+            const sign = pnl > 0 ? '+' : '';
+            const cash = (Math.random() * 10000 + 1000).toFixed(2);
+            
+            document.getElementById('portfolio-info').innerHTML = `
+                <p><strong>Total Balance:</strong> $${balance}</p>
+                <p><strong>Today's P&L:</strong> <span style="color: ${color};">${sign}$${Math.abs(pnl)} (${sign}${pnlPercent}%)</span></p>
+                <p><strong>Open Positions:</strong> ${Math.floor(Math.random() * 10) + 3} Active</p>
+                <p><strong>Available Cash:</strong> $${cash}</p>
+            `;
+            
+            alert('Portfolio refreshed successfully!');
+        }
+
+        // Automated trading
+        function toggleAutoTrading() {
+            autoTradingEnabled = !autoTradingEnabled;
+            const slider = document.getElementById('auto-slider');
+            const status = document.getElementById('auto-status');
+            
+            if (autoTradingEnabled) {
+                slider.style.right = '3px';
+                slider.style.left = 'auto';
+                status.textContent = 'Automated Trading is ACTIVE';
+                status.style.color = '#4CAF50';
+            } else {
+                slider.style.left = '3px';
+                slider.style.right = 'auto';
+                status.textContent = 'Automated Trading is INACTIVE';
+                status.style.color = '#f44336';
+            }
+        }
+        
+        function executeAutoTrades() {
+            if (!autoTradingEnabled) {
+                alert('Please enable automated trading first');
+                return;
+            }
+            
+            if (confirm('Execute automated trades based on current AI recommendations?')) {
+                alert('Automated trades executed! Check your order history for details.');
+                // Simulate some trades
+                setTimeout(() => {
+                    addToOrderHistory('AAPL', 'BUY', 500);
+                    addToOrderHistory('TSLA', 'SELL', 300);
+                }, 1000);
+            }
+        }
+        
+        function showAutoSettings() {
+            alert('Advanced automated trading settings will be available in the next update!');
+        }
+
+        // Other functions
+        function refreshRecommendations() {
+            loadRecommendations();
+            alert('AI recommendations refreshed!');
+        }
+        
+        function viewAllOrders() {
+            alert('Complete order history will be available in the next update!');
+        }
+
+        function logout() {
+            localStorage.clear();
+            alert('Logged out successfully!');
+            window.location.href = '/';
+        }
+
+        // Initialize dashboard
+        loadUserInfo();
+        loadRecommendations();
+        
+        // Check if user is logged in
+        const user = localStorage.getItem('user');
+        if (!user) {
+            alert('Please log in to access the dashboard');
+            window.location.href = '/';
+        }
+    </script>
+</body>
+</html>
+

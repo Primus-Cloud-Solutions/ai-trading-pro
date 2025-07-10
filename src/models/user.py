@@ -47,7 +47,7 @@ class User(db.Model):
     # Payment integration
     stripe_customer_id = db.Column(db.String(100))
     
-    # Relationships
+    # Relationships - Fixed to avoid circular imports
     subscription = db.relationship('Subscription', backref='user', uselist=False, cascade='all, delete-orphan')
     portfolio = db.relationship('Portfolio', backref='user', uselist=False, cascade='all, delete-orphan')
     transactions = db.relationship('Transaction', backref='user', cascade='all, delete-orphan')
@@ -249,19 +249,6 @@ class Subscription(db.Model):
         
         return self.trades_this_month < self.plan.max_trades_per_day
     
-    def get_trades_today(self):
-        """Get number of trades today"""
-        from models.trading import Trade
-        today = datetime.utcnow().date()
-        return Trade.query.filter(
-            Trade.portfolio_id == self.user.portfolio.id,
-            Trade.executed_at >= today
-        ).count() if self.user.portfolio else 0
-    
-    def can_fund_account(self):
-        """Check if user can fund their account"""
-        return self.is_active
-    
     def increment_trade_count(self):
         """Increment trade count"""
         self.trades_this_month += 1
@@ -349,7 +336,7 @@ class Transaction(db.Model):
             'payment_method': self.payment_method,
             'payment_reference': self.payment_reference,
             'description': self.description,
-            'metadata': self.metadata,
+            'metadata': self.transaction_metadata,
             'created_at': self.created_at.isoformat(),
             'completed_at': self.completed_at.isoformat() if self.completed_at else None
         }
