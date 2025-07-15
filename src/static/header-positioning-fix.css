@@ -1,0 +1,253 @@
+/* Header Positioning Fixes */
+
+/* Ensure body has proper top padding for fixed header */
+body {
+    padding-top: 80px; /* Account for fixed header height */
+}
+
+/* Header improvements */
+.header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: rgba(15, 15, 35, 0.98);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+    z-index: 1000;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+/* Connection status positioning fix */
+.connection-status {
+    position: fixed;
+    top: 90px; /* Below the header */
+    right: 20px;
+    background: rgba(13, 128, 67, 0.9);
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    z-index: 999;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(13, 128, 67, 0.3);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.connection-status.connected::before {
+    content: '●';
+    margin-right: 0.5rem;
+    color: #22c55e;
+    animation: pulse 2s infinite;
+}
+
+/* Hero section adjustments */
+.hero {
+    padding: 6rem 0 4rem; /* Increased top padding to account for header */
+    background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+    position: relative;
+    overflow: hidden;
+    margin-top: 0; /* Remove any top margin */
+}
+
+/* Hero content spacing */
+.hero-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+}
+
+/* Hero title adjustments */
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+    margin-top: 0; /* Ensure no top margin */
+}
+
+/* Ensure proper spacing for all main sections */
+.predictions-section,
+.activity-section {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+}
+
+/* Responsive header fixes */
+@media (max-width: 1024px) {
+    body {
+        padding-top: 70px;
+    }
+    
+    .header {
+        height: 70px;
+    }
+    
+    .connection-status {
+        top: 80px;
+    }
+    
+    .hero {
+        padding: 4rem 0 3rem;
+    }
+    
+    .hero-title {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-top: 65px;
+    }
+    
+    .header {
+        height: 65px;
+    }
+    
+    .nav-container {
+        padding: 0 1rem;
+    }
+    
+    .connection-status {
+        top: 75px;
+        right: 15px;
+        font-size: 0.8rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .hero {
+        padding: 3rem 0 2rem;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .nav-links {
+        gap: 1rem;
+    }
+    
+    .nav-link {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+    
+    .login-btn {
+        padding: 0.6rem 1.2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    body {
+        padding-top: 60px;
+    }
+    
+    .header {
+        height: 60px;
+    }
+    
+    .connection-status {
+        top: 70px;
+        right: 10px;
+        font-size: 0.75rem;
+        padding: 0.3rem 0.6rem;
+    }
+    
+    .hero {
+        padding: 2rem 0 1.5rem;
+    }
+    
+    .hero-title {
+        font-size: 2rem;
+    }
+    
+    .nav-brand {
+        font-size: 1.3rem;
+    }
+    
+    .nav-brand i {
+        font-size: 1.5rem;
+    }
+    
+    .nav-links {
+        gap: 0.5rem;
+    }
+    
+    .nav-link {
+        padding: 0.3rem 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .login-btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Smooth scrolling for anchor links */
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 100px; /* Account for fixed header when scrolling to anchors */
+}
+
+/* Ensure no content is hidden behind header on page load */
+.section-container {
+    position: relative;
+    z-index: 1;
+}
+
+/* Fix any potential z-index issues */
+.trading-chart {
+    position: relative;
+    z-index: 2;
+}
+
+.trending-section {
+    position: relative;
+    z-index: 1;
+}
+
+/* Header shadow on scroll */
+.header.scrolled {
+    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.3);
+    background: rgba(15, 15, 35, 0.99);
+}
+
+/* Animation for header appearance */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.header {
+    animation: slideDown 0.5s ease-out;
+}
+

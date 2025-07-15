@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Pro - Real Social Trading Intelligence</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="enhanced-homepage-styles.css" rel="stylesheet">
+    <link href="layout-fixes.css" rel="stylesheet">
+    <link href="header-positioning-fix.css" rel="stylesheet">
+    <link href="brightness-enhancement.css" rel="stylesheet">
+    <link href="platform-links-styles.css" rel="stylesheet">
+    <link href="dynamic-links-styles.css" rel="stylesheet">
+    <style>
+        /* Additional styles for real social features */
+        .opinion-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border: 1px solid #2a2a3e;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .opinion-card:hover {
+            border-color: #0D8043;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(13, 128, 67, 0.15);
+        }
+        
+        .opinion-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 15px;
+        }
+        
+        .influencer-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .influencer-avatar {
+            position: relative;
+        }
+        
+        .avatar-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 2px solid #0D8043;
+        }
+        
+        .verified-badge {
+            position: absolute;
+            bottom: -2px;
+            right: -2px;
+            background: #0D8043;
+            color: white;
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        
+        .influencer-name {
+            font-weight: 600;
+            color: #ffffff;
+            font-size: 14px;
+        }
+        
+        .influencer-handle {
+            color: #888;
+            font-size: 12px;
+        }
+        
+        .opinion-meta {
+            text-align: right;
+        }
+        
+        .category-badge {
+            padding: 4px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            display: inline-block;
+        }
+        
+        .category-badge.stocks { background: rgba(59, 130, 246, 0.2); color: #3b82f6; }
+        .category-badge.crypto { background: rgba(245, 158, 11, 0.2); color: #f59e0b; }
+        .category-badge.meme { background: rgba(168, 85, 247, 0.2); color: #a855f7; }
+        .category-badge.forex { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        
+        .time-ago {
+            color: #666;
+            font-size: 12px;
+        }
+        
+        .opinion-content p {
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 12px;
+        }
+        
+        .opinion-tags {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .symbol-tag {
+            background: rgba(13, 128, 67, 0.2);
+            color: #0D8043;
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .sentiment-tag {
+            padding: 4px 8px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        
+        .sentiment-tag.bullish { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .sentiment-tag.bearish { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .sentiment-tag.neutral { background: rgba(156, 163, 175, 0.2); color: #9ca3af; }
+        
+        .engagement-section {
+            border-top: 1px solid #2a2a3e;
+            padding-top: 15px;
+        }
+        
+        .engagement-stats {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 12px;
+        }
+        
+        .stat-item {
+            color: #888;
+            font-size: 13px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .engagement-actions {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .engagement-btn {
+            background: transparent;
+            border: 1px solid #2a2a3e;
+            color: #888;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        
+        .engagement-btn:hover {
+            border-color: #0D8043;
+            color: #0D8043;
+        }
+        
+        .engagement-btn.liked {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: #ef4444;
+            color: #ef4444;
+        }
+        
+        .comment-section {
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #2a2a3e;
+        }
+        
+        .comment-form {
+            background: rgba(42, 42, 62, 0.3);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .comment-author, .comment-input, .sentiment-select {
+            width: 100%;
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid #2a2a3e;
+            color: #ffffff;
+            padding: 8px 12px;
+            border-radius: 6px;
+            margin-bottom: 10px;
+        }
+        
+        .comment-input {
+            min-height: 60px;
+            resize: vertical;
+        }
+        
+        .comment-sentiment {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .comment-sentiment label {
+            color: #888;
+            font-size: 13px;
+        }
+        
+        .submit-comment-btn {
+            background: #0D8043;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+        
+        .comment-item {
+            background: rgba(26, 26, 46, 0.5);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+        
+        .comment-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 8px;
+        }
+        
+        .comment-author {
+            font-weight: 600;
+            color: #0D8043;
+            font-size: 13px;
+        }
+        
+        .comment-time {
+            color: #666;
+            font-size: 11px;
+        }
+        
+        .comment-content {
+            color: #e0e0e0;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+        
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+            z-index: 1000;
+        }
+        
+        .connection-status.connected {
+            background: rgba(34, 197, 94, 0.2);
+            color: #22c55e;
+            border: 1px solid #22c55e;
+        }
+        
+        .connection-status.disconnected {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid #ef4444;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            z-index: 1001;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .notification.success {
+            background: rgba(34, 197, 94, 0.9);
+            color: white;
+        }
+        
+        .notification.error {
+            background: rgba(239, 68, 68, 0.9);
+            color: white;
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .telegram-update {
+            background: rgba(42, 42, 62, 0.3);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border-left: 3px solid #0088cc;
+        }
+        
+        .update-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .channel-name {
+            font-weight: 600;
+            color: #0088cc;
+            font-size: 13px;
+        }
+        
+        .update-content {
+            color: #e0e0e0;
+            font-size: 13px;
+            line-height: 1.5;
+            margin-bottom: 8px;
+        }
+        
+        .update-stats {
+            display: flex;
+            gap: 15px;
+            font-size: 11px;
+            color: #888;
+        }
+        
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(42, 42, 62, 0.3);
+        }
+        
+        .activity-icon {
+            font-size: 16px;
+        }
+        
+        .activity-content {
+            flex: 1;
+        }
+        
+        .activity-text {
+            color: #e0e0e0;
+            font-size: 13px;
+            margin-bottom: 2px;
+        }
+        
+        .activity-time {
+            color: #666;
+            font-size: 11px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Connection Status -->
+    <div id="connection-status" class="connection-status connected">Connected</div>
+    
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>AI Trading Pro</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+                <a href="#predictions" class="nav-link">Predictions</a>
+                <a href="#kol-insights" class="nav-link">KOL Insights</a>
+                <a href="/login" class="nav-link login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="gradient-text">Real-Time Social</span>
+                    <span class="highlight-text">Trading Intelligence</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Live insights from real trading influencers, community engagement, and AI-powered predictions
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="live-opinions-count">0</div>
+                        <div class="stat-label">Live Opinions</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="active-sources-count">0</div>
+                        <div class="stat-label">Active Sources</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="avg-engagement-count">0</div>
+                        <div class="stat-label">Avg Engagement</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="trading-chart">
+                    <canvas id="liveChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Live Trending Ticker -->
+        <div class="trending-section">
+            <div class="trending-header">
+                <i class="fas fa-fire"></i>
+                <span>Live Market Pulse</span>
+                <span class="last-update">Last updated: <span id="last-update-time">--:--:--</span></span>
+            </div>
+            <div class="trending-ticker">
+                <div class="ticker-content" id="liveTicker">
+                    <!-- Live ticker content will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real KOL Insights Section -->
+    <section id="kol-insights" class="predictions-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    What Real KOLs Think
+                </h2>
+                <div class="section-controls">
+                    <div class="filter-tabs">
+                        <button class="asset-tab active" data-filter="all">All Assets</button>
+                        <button class="asset-tab" data-filter="stocks">Stocks</button>
+                        <button class="asset-tab" data-filter="crypto">Crypto</button>
+                        <button class="asset-tab" data-filter="meme">Meme Coins</button>
+                        <button class="asset-tab" data-filter="forex">Forex</button>
+                    </div>
+                    <div class="live-indicator">
+                        <div class="pulse-dot"></div>
+                        <span>Live Feed</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="kol-opinions-container" id="kol-opinions-container">
+                <!-- Real KOL opinions will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Predictions Section -->
+    <section id="predictions" class="predictions-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-brain"></i>
+                    AI Predictions & Community Comments
+                </h2>
+                <div class="section-controls">
+                    <button class="refresh-btn" onclick="window.realSocialManager.loadRealOpinions()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="predictions-grid" id="predictionsGrid">
+                <!-- AI predictions with comment functionality will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Live Activity Feed -->
+    <section class="activity-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-activity"></i>
+                    Live Activity Feed
+                </h2>
+            </div>
+            
+            <div class="activity-grid">
+                <div class="activity-column">
+                    <h3>Recent Activity</h3>
+                    <div id="activity-feed">
+                        <!-- Live activity feed will be populated here -->
+                    </div>
+                </div>
+                
+                <div class="activity-column">
+                    <h3>Telegram Updates</h3>
+                    <div id="telegram-updates">
+                        <!-- Telegram channel updates will be populated here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>AI Trading Pro</h3>
+                <p>Real-time social trading intelligence powered by AI and community insights.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Features</h4>
+                <ul>
+                    <li>Live KOL Opinions</li>
+                    <li>AI Predictions</li>
+                    <li>Community Engagement</li>
+                    <li>Real-time Data</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Platforms</h4>
+                <ul>
+                    <li>Twitter Integration</li>
+                    <li>Telegram Channels</li>
+                    <li>Discord Communities</li>
+                    <li>Instagram Insights</li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact</h4>
+                <p>support@aitradingpro.com</p>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-telegram"></i></a>
+                    <a href="#"><i class="fab fa-discord"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 AI Trading Pro. All rights reserved. Real social data integration.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="chart-implementation.js"></script>
+    <script src="ticker-implementation.js"></script>
+    <script src="header-scroll-behavior.js"></script>
+    <script src="dynamic-platform-links.js"></script>
+    <script src="real-social-interactions.js"></script>
+</body>
+</html>
+

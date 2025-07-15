@@ -67,28 +67,31 @@ def login():
         data = request.get_json()
         
         if not data:
-            return jsonify({'error': 'No data provided'}), 400
+            return jsonify({'success': False, 'message': 'No data provided'}), 400
         
-        email_or_username = data.get('email_or_username')
+        # Handle both 'email' and 'email_or_username' field names
+        email_or_username = data.get('email') or data.get('email_or_username')
         password = data.get('password')
         
         if not email_or_username or not password:
-            return jsonify({'error': 'Email/username and password are required'}), 400
+            return jsonify({'success': False, 'message': 'Email/username and password are required'}), 400
         
         # Authenticate user
         success, message, user_data = auth_service.login_user(email_or_username, password)
         
         if success:
             return jsonify({
+                'success': True,
                 'message': message,
-                'data': user_data
+                'user': user_data,
+                'redirect': '/dashboard'
             }), 200
         else:
-            return jsonify({'error': message}), 401
+            return jsonify({'success': False, 'message': message}), 400
             
     except Exception as e:
         logger.error(f"❌ Error in login endpoint: {e}")
-        return jsonify({'error': 'Login failed'}), 500
+        return jsonify({'success': False, 'message': 'Login failed. Please check your credentials.'}), 400
 
 @auth_bp.route('/refresh', methods=['POST'])
 @jwt_required(refresh=True)

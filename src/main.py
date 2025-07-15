@@ -21,11 +21,13 @@ from database import db
 from models.user import User, Subscription, SubscriptionPlan, TradingSettings, Transaction
 from models.trading import Portfolio, Asset, Position, Trade, TradingSignal, MarketData
 from models.orders import Order, AutoTradingSettings, TradeRecommendation
+from models.social_engagement import SocialInfluencer, SocialOpinion, OpinionComment, OpinionLike, SocialActivity, TelegramChannel, TelegramMessage, SocialEngagementMetrics
 
 # Import routes
 from routes.auth_routes import auth_bp
 from routes.trading_routes_fixed import trading_bp
 from routes.trading_execution_routes import trading_execution_bp
+from routes.real_social_routes import real_social_bp
 
 # Import services
 from services.deployment_trading_engine import advanced_trading_engine
@@ -80,10 +82,19 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(trading_bp)
     app.register_blueprint(trading_execution_bp)
+    app.register_blueprint(real_social_bp)
     
     # Import and register enhanced trading routes
     from routes.enhanced_trading_routes import enhanced_trading_bp
     app.register_blueprint(enhanced_trading_bp)
+    
+    # Import and register live social routes
+    from routes.live_social_routes import live_social_bp
+    app.register_blueprint(live_social_bp)
+    
+    # Import and register engagement routes
+    from routes.engagement_routes import engagement_bp
+    app.register_blueprint(engagement_bp)
     
     # Create tables and initialize data
     with app.app_context():
@@ -97,6 +108,11 @@ def create_app():
             # Initialize Advanced AI Trading Engine
             advanced_trading_engine.start_engine()
             logger.info("🤖 Advanced AI Trading Engine initialized")
+            
+            # Initialize Live KOL Service
+            from services.live_kol_service import live_kol_service
+            live_kol_service.start_live_feed()
+            logger.info("📢 Live KOL Service initialized")
         except Exception as e:
             logger.error(f"❌ Database initialization failed: {e}")
             raise
@@ -124,10 +140,14 @@ def create_app():
             'ai_engine_status': advanced_trading_engine.get_engine_status()
         })
     
-    # Serve React app
+    # Serve real social homepage
     @app.route('/')
-    def serve_react_app():
-        return send_from_directory(app.static_folder, 'index.html')
+    def serve_homepage():
+        return send_from_directory(app.static_folder, 'real-social-homepage.html')
+    
+    @app.route('/login')
+    def serve_login():
+        return send_from_directory(app.static_folder, 'login-fixed.html')
     
     @app.route('/dashboard')
     def serve_dashboard():

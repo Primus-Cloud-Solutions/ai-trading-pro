@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Pro - Home</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="enhanced-homepage-styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-chart-line"></i>
+                <span>AI Trading Pro</span>
+            </div>
+            <div class="nav-links">
+                <a href="/" class="nav-link active">Home</a>
+                <a href="/dashboard" class="nav-link">Dashboard</a>
+                <a href="#predictions" class="nav-link">Predictions</a>
+                <a href="#kol-insights" class="nav-link">KOL Insights</a>
+                <a href="/login" class="nav-link login-btn">
+                    <i class="fas fa-sign-in-alt"></i> Login
+                </a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="gradient-text">AI-Powered Trading</span>
+                    <span class="highlight-text">Intelligence</span>
+                </h1>
+                <p class="hero-subtitle">
+                    Get real-time predictions, community insights, and expert opinions with live market data
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="liveSignals">247</div>
+                        <div class="stat-label">Live Signals</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="accuracy">94.2%</div>
+                        <div class="stat-label">Accuracy</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number" id="activeTraders">12.5K</div>
+                        <div class="stat-label">Active Traders</div>
+                    </div>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="trading-chart">
+                    <canvas id="liveChart" width="400" height="300"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Live Trending Ticker -->
+        <div class="trending-section">
+            <div class="trending-header">
+                <i class="fas fa-fire"></i>
+                <span>Live Market Pulse</span>
+            </div>
+            <div class="trending-ticker">
+                <div class="ticker-content" id="liveTicker">
+                    <!-- Live ticker content will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- AI Predictions Section -->
+    <section id="predictions" class="predictions-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-brain"></i>
+                    AI Predictions & Community Insights
+                </h2>
+                <div class="section-controls">
+                    <div class="filter-tabs">
+                        <button class="filter-tab active" data-filter="all">All Assets</button>
+                        <button class="filter-tab" data-filter="stocks">Stocks</button>
+                        <button class="filter-tab" data-filter="crypto">Crypto</button>
+                        <button class="filter-tab" data-filter="meme">Meme Coins</button>
+                        <button class="filter-tab" data-filter="forex">Forex</button>
+                    </div>
+                    <button class="refresh-btn" onclick="window.enhancedHomepage.refreshPredictions()">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+            
+            <div class="predictions-grid" id="predictionsGrid">
+                <!-- Prediction cards will be populated here -->
+            </div>
+        </div>
+    </section>
+
+    <!-- KOL Insights Section -->
+    <section id="kol-insights" class="kol-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i>
+                    What KOLs Think - Live Feed
+                </h2>
+                <div class="kol-stats">
+                    <div class="kol-stat">
+                        <span class="stat-value" id="liveOpinions">0</span>
+                        <span class="stat-label">Live Opinions</span>
+                    </div>
+                    <div class="kol-stat">
+                        <span class="stat-value" id="activeSources">0</span>
+                        <span class="stat-label">Active Sources</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Asset Class Tabs -->
+            <div class="asset-tabs">
+                <button class="asset-tab active" data-asset="all">
+                    <i class="fas fa-globe"></i>
+                    All Markets
+                </button>
+                <button class="asset-tab" data-asset="stocks">
+                    <i class="fas fa-chart-line"></i>
+                    Stocks
+                </button>
+                <button class="asset-tab" data-asset="crypto">
+                    <i class="fab fa-bitcoin"></i>
+                    Crypto
+                </button>
+                <button class="asset-tab" data-asset="meme">
+                    <i class="fas fa-rocket"></i>
+                    Meme Coins
+                </button>
+                <button class="asset-tab" data-asset="forex">
+                    <i class="fas fa-dollar-sign"></i>
+                    Forex
+                </button>
+            </div>
+
+            <!-- KOL Opinions Grid -->
+            <div class="kol-grid" id="kolGrid">
+                <!-- KOL opinion cards will be populated here -->
+            </div>
+
+            <!-- Live Activity Feed -->
+            <div class="live-activity">
+                <h3 class="activity-title">
+                    <i class="fas fa-rss"></i>
+                    Live Activity Feed
+                </h3>
+                <div class="activity-stream" id="activityStream">
+                    <!-- Live activity items will be populated here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Real-time Data Indicators -->
+    <div class="data-indicators">
+        <div class="indicator" id="connectionStatus">
+            <i class="fas fa-wifi"></i>
+            <span>Connected</span>
+        </div>
+        <div class="indicator" id="lastUpdate">
+            <i class="fas fa-clock"></i>
+            <span>Just now</span>
+        </div>
+        <div class="indicator" id="dataSource">
+            <i class="fas fa-database"></i>
+            <span>Live Data</span>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="enhanced-homepage-interactions.js"></script>
+    <script src="enhanced-engagement.js"></script>
+    <script src="engagement-functions.js"></script>
+    <script>
+        // Initialize enhanced homepage
+        document.addEventListener('DOMContentLoaded', () => {
+            window.enhancedHomepage = new EnhancedHomepageManager();
+        });
+    </script>
+</body>
+</html>

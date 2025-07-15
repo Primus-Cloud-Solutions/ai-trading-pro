@@ -1,0 +1,319 @@
+/* Brightness Enhancement CSS */
+/* Makes the homepage brighter and more vibrant */
+
+:root {
+    /* Updated brighter color palette */
+    --primary-bg: #1a1a3a; /* Lighter than #0f0f23 */
+    --secondary-bg: #2a2a4e; /* Lighter than #1a1a2e */
+    --accent-bg: #2c3454; /* Lighter than #16213e */
+    --primary-green: #00ff88; /* Keep vibrant green */
+    --secondary-green: #22c55e; /* Brighter green */
+    --primary-red: #ff6b6b;
+    --primary-blue: #4dabf7;
+    --text-primary: #ffffff;
+    --text-secondary: #d0d0d0; /* Brighter than #b0b0b0 */
+    --text-muted: #a0a0a0; /* Brighter than #888888 */
+    --border-color: rgba(0, 255, 136, 0.3); /* More visible */
+    --shadow-color: rgba(0, 0, 0, 0.2); /* Lighter shadows */
+    --gradient-primary: linear-gradient(135deg, #00ff88, #22c55e);
+    --gradient-secondary: linear-gradient(135deg, #4dabf7, #339af0);
+    --gradient-bg: linear-gradient(135deg, #1a1a3a, #2a2a4e); /* Brighter background */
+}
+
+/* Brighter body background */
+body {
+    background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4e 50%, #2c3454 100%);
+    color: var(--text-primary);
+}
+
+/* Brighter header */
+.header {
+    background: rgba(26, 26, 58, 0.95); /* Brighter than rgba(15, 15, 35, 0.95) */
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(0, 255, 136, 0.4);
+}
+
+/* Enhanced hero section with brighter background */
+.hero {
+    background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4e 50%, #2c3454 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(13, 128, 67, 0.15) 0%, transparent 50%);
+    pointer-events: none;
+}
+
+/* Brighter hero text */
+.hero-subtitle {
+    color: #d0d0d0; /* Brighter than #b0b0b0 */
+}
+
+/* Enhanced trading chart with brighter background */
+.trading-chart {
+    background: rgba(42, 42, 78, 0.9); /* Brighter than rgba(26, 26, 46, 0.9) */
+    border: 1px solid rgba(13, 128, 67, 0.4);
+    backdrop-filter: blur(15px);
+    box-shadow: 
+        0 20px 40px rgba(0, 0, 0, 0.2),
+        0 0 0 1px rgba(13, 128, 67, 0.2),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+/* Brighter trending section */
+.trending-section {
+    background: rgba(42, 42, 78, 0.8); /* Brighter than rgba(26, 26, 46, 0.7) */
+    border: 1px solid rgba(66, 66, 98, 0.8);
+    backdrop-filter: blur(10px);
+}
+
+/* Enhanced sections background */
+.predictions-section {
+    background: linear-gradient(135deg, #1a1a3a 0%, #2a2a4e 100%);
+}
+
+.activity-section {
+    background: linear-gradient(135deg, #2a2a4e 0%, #2c3454 100%);
+}
+
+/* Brighter opinion cards */
+.opinion-card {
+    background: rgba(42, 42, 78, 0.8) !important; /* Brighter card background */
+    border: 1px solid rgba(66, 66, 98, 0.6) !important;
+    backdrop-filter: blur(10px);
+}
+
+.opinion-card:hover {
+    background: rgba(50, 50, 90, 0.9) !important;
+    border-color: rgba(13, 128, 67, 0.4) !important;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+}
+
+/* Enhanced filter tabs */
+.filter-tabs {
+    background: rgba(42, 42, 78, 0.8); /* Brighter background */
+    border: 1px solid rgba(66, 66, 98, 0.8);
+}
+
+.asset-tab, .filter-tab {
+    color: #a0a0a0; /* Brighter text */
+}
+
+.asset-tab:hover, .filter-tab:hover {
+    background: rgba(13, 128, 67, 0.15);
+    color: #22c55e;
+}
+
+/* Enhanced ticker items */
+.ticker-item {
+    background: rgba(42, 42, 78, 0.7); /* Brighter ticker background */
+    border: 1px solid rgba(66, 66, 98, 0.8);
+}
+
+/* Brighter activity items */
+.activity-item {
+    background: rgba(42, 42, 78, 0.6) !important;
+    border: 1px solid rgba(66, 66, 98, 0.5) !important;
+}
+
+.activity-item:hover {
+    background: rgba(50, 50, 90, 0.8) !important;
+}
+
+/* Enhanced connection status */
+.connection-status {
+    background: rgba(13, 128, 67, 0.95);
+    border: 1px solid rgba(13, 128, 67, 0.4);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Brighter stats display */
+.stat-number {
+    color: #22c55e; /* Brighter green */
+    text-shadow: 0 0 10px rgba(34, 197, 94, 0.3);
+}
+
+.stat-label {
+    color: #a0a0a0; /* Brighter than #888 */
+}
+
+/* Enhanced section titles */
+.section-title {
+    color: #ffffff;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.section-title i {
+    color: #22c55e;
+    filter: drop-shadow(0 0 5px rgba(34, 197, 94, 0.3));
+}
+
+/* Brighter engagement buttons */
+.engagement-btn {
+    background: rgba(42, 42, 78, 0.8) !important;
+    border: 1px solid rgba(66, 66, 98, 0.6) !important;
+    color: #d0d0d0 !important;
+}
+
+.engagement-btn:hover {
+    background: rgba(13, 128, 67, 0.2) !important;
+    border-color: rgba(13, 128, 67, 0.4) !important;
+    color: #22c55e !important;
+}
+
+/* Enhanced gradient text */
+.gradient-text {
+    background: linear-gradient(135deg, #22c55e 0%, #00ff88 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    filter: drop-shadow(0 0 10px rgba(34, 197, 94, 0.2));
+}
+
+/* Brighter highlight text */
+.highlight-text {
+    color: #ffffff;
+    text-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+}
+
+/* Enhanced live indicator */
+.pulse-dot {
+    background: #22c55e;
+    box-shadow: 0 0 10px rgba(34, 197, 94, 0.5);
+}
+
+/* Brighter category badges */
+.category-badge.stocks { 
+    background: rgba(59, 130, 246, 0.3); 
+    color: #60a5fa; 
+}
+
+.category-badge.crypto { 
+    background: rgba(245, 158, 11, 0.3); 
+    color: #fbbf24; 
+}
+
+.category-badge.meme { 
+    background: rgba(168, 85, 247, 0.3); 
+    color: #c084fc; 
+}
+
+.category-badge.forex { 
+    background: rgba(34, 197, 94, 0.3); 
+    color: #4ade80; 
+}
+
+/* Enhanced sentiment indicators */
+.sentiment-bullish {
+    color: #22c55e !important;
+    background: rgba(34, 197, 94, 0.15) !important;
+}
+
+.sentiment-bearish {
+    color: #ef4444 !important;
+    background: rgba(239, 68, 68, 0.15) !important;
+}
+
+.sentiment-neutral {
+    color: #fbbf24 !important;
+    background: rgba(251, 191, 36, 0.15) !important;
+}
+
+/* Brighter footer */
+.footer {
+    background: rgba(26, 26, 58, 0.9);
+    border-top: 1px solid rgba(66, 66, 98, 0.5);
+}
+
+/* Enhanced scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(42, 42, 78, 0.5);
+}
+
+::-webkit-scrollbar-thumb {
+    background: rgba(13, 128, 67, 0.6);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(13, 128, 67, 0.8);
+}
+
+/* Add subtle glow effects */
+.nav-brand {
+    filter: drop-shadow(0 0 5px rgba(0, 255, 136, 0.3));
+}
+
+.login-btn {
+    box-shadow: 0 4px 15px rgba(0, 255, 136, 0.3);
+}
+
+.login-btn:hover {
+    box-shadow: 0 6px 20px rgba(0, 255, 136, 0.4);
+}
+
+/* Enhanced chart grid lines for better visibility */
+.chart-container canvas {
+    filter: brightness(1.1);
+}
+
+/* Brighter text in general */
+p, span, div {
+    color: inherit;
+}
+
+/* Make sure all text is readable */
+.opinion-content p {
+    color: #d0d0d0 !important;
+}
+
+.time-ago {
+    color: #a0a0a0 !important;
+}
+
+/* Enhanced hover effects */
+.nav-link:hover {
+    background: rgba(0, 255, 136, 0.15);
+    box-shadow: 0 2px 8px rgba(0, 255, 136, 0.2);
+}
+
+/* Brighter active states */
+.nav-link.active {
+    background: rgba(0, 255, 136, 0.2);
+    box-shadow: 0 2px 8px rgba(0, 255, 136, 0.3);
+}
+
+/* Add subtle animation to make it feel more alive */
+@keyframes gentle-glow {
+    0%, 100% { filter: brightness(1); }
+    50% { filter: brightness(1.05); }
+}
+
+.hero-title {
+    animation: gentle-glow 4s ease-in-out infinite;
+}
+
+/* Ensure proper contrast for accessibility */
+.text-primary {
+    color: #ffffff !important;
+}
+
+.text-secondary {
+    color: #d0d0d0 !important;
+}
+
+.text-muted {
+    color: #a0a0a0 !important;
+}
+

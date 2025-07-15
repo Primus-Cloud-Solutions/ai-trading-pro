@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Trading Pro - Home</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="homepage-styles.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(15, 15, 35, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+            padding: 1rem 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #00ff88;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00ff88;
+        }
+
+        .login-btn {
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            color: #0f0f23;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 80px;
+            padding: 2rem 0;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 204, 106, 0.05));
+            border-radius: 20px;
+            margin-bottom: 3rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #00ff88, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: #b0b0b0;
+            margin-bottom: 2rem;
+        }
+
+        /* Predictions Section */
+        .predictions-section {
+            margin-bottom: 3rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #00ff88;
+        }
+
+        .predictions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .prediction-card {
+            background: rgba(26, 26, 46, 0.8);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .prediction-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 255, 136, 0.5);
+            box-shadow: 0 10px 30px rgba(0, 255, 136, 0.1);
+        }
+
+        .prediction-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .stock-symbol {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #00ff88;
+        }
+
+        .prediction-type {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .prediction-type.buy {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .prediction-type.sell {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .prediction-details {
+            margin-bottom: 1rem;
+        }
+
+        .price-info {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .confidence {
+            background: rgba(0, 255, 136, 0.1);
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            color: #00ff88;
+        }
+
+        /* Comments Section */
+        .comments-section {
+            margin-top: 1.5rem;
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+            padding-top: 1rem;
+        }
+
+        .comments-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .comments-count {
+            color: #b0b0b0;
+            font-size: 0.9rem;
+        }
+
+        .add-comment-btn {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .add-comment-btn:hover {
+            background: rgba(0, 255, 136, 0.3);
+        }
+
+        .comment-form {
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        .comment-form.active {
+            display: block;
+        }
+
+        .comment-input {
+            width: 100%;
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: #ffffff;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .comment-input:focus {
+            outline: none;
+            border-color: #00ff88;
+        }
+
+        .comment-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .submit-comment, .cancel-comment {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .submit-comment {
+            background: #00ff88;
+            color: #0f0f23;
+        }
+
+        .cancel-comment {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .comments-list {
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .comment {
+            background: rgba(15, 15, 35, 0.6);
+            border-radius: 8px;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .comment-author {
+            font-weight: 600;
+            color: #00ff88;
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .comment-text {
+            color: #e0e0e0;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .comment-time {
+            color: #888;
+            font-size: 0.8rem;
+            margin-top: 0.25rem;
+        }
+
+        /* KOLs Section */
+        .kols-section {
+            background: rgba(26, 26, 46, 0.6);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .kols-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .kol-opinion {
+            background: rgba(15, 15, 35, 0.8);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .kol-opinion:hover {
+            border-color: rgba(0, 255, 136, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .kol-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.75rem;
+        }
+
+        .kol-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #00ff88, #00cc6a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 0.75rem;
+            font-weight: 700;
+            color: #0f0f23;
+        }
+
+        .kol-info h4 {
+            color: #00ff88;
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .kol-platform {
+            color: #888;
+            font-size: 0.8rem;
+        }
+
+        .kol-content {
+            color: #e0e0e0;
+            line-height: 1.5;
+            margin-bottom: 0.75rem;
+        }
+
+        .kol-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.8rem;
+            color: #888;
+        }
+
+        .kol-sentiment {
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-weight: 600;
+        }
+
+        .kol-sentiment.bullish {
+            background: rgba(0, 255, 136, 0.2);
+            color: #00ff88;
+        }
+
+        .kol-sentiment.bearish {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+        }
+
+        .kol-sentiment.neutral {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .predictions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kols-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-chart-line"></i> AI Trading Pro
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/dashboard">Dashboard</a></li>
+                <li><a href="#predictions">Predictions</a></li>
+                <li><a href="#kols">KOL Insights</a></li>
+            </ul>
+            <a href="/login" class="login-btn">
+                <i class="fas fa-sign-in-alt"></i> Login
+            </a>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Hero Section -->
+            <section class="hero">
+                <h1>AI-Powered Trading Insights</h1>
+                <p>Get real-time predictions, community insights, and expert opinions all in one place</p>
+            </section>
+
+            <!-- Predictions Section -->
+            <section class="predictions-section" id="predictions">
+                <h2 class="section-title">
+                    <i class="fas fa-brain"></i> AI Predictions & Community Insights
+                </h2>
+                <div class="predictions-grid" id="predictionsGrid">
+                    <!-- Predictions will be loaded here -->
+                </div>
+            </section>
+
+            <!-- KOLs Section -->
+            <section class="kols-section" id="kols">
+                <h2 class="section-title">
+                    <i class="fas fa-users"></i> What KOLs Think
+                </h2>
+                <div class="kols-grid" id="kolsGrid">
+                    <!-- KOL opinions will be loaded here -->
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script src="homepage-interactions.js"></script>
+    <script>
+        // Initialize homepage
+        document.addEventListener('DOMContentLoaded', function() {
+            loadPredictions();
+            loadKOLOpinions();
+            
+            // Refresh data every 30 seconds
+            setInterval(() => {
+                loadPredictions();
+                loadKOLOpinions();
+            }, 30000);
+        });
+
+        // Load AI predictions
+        async function loadPredictions() {
+            try {
+                const response = await fetch('/api/trading/recommendations?market=all');
+                const predictions = await response.json();
+                
+                const grid = document.getElementById('predictionsGrid');
+                grid.innerHTML = '';
+                
+                predictions.slice(0, 6).forEach(prediction => {
+                    const card = createPredictionCard(prediction);
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading predictions:', error);
+            }
+        }
+
+        // Create prediction card with comments
+        function createPredictionCard(prediction) {
+            const card = document.createElement('div');
+            card.className = 'prediction-card';
+            
+            const predictionType = prediction.action.toLowerCase();
+            const typeClass = predictionType === 'buy' ? 'buy' : 'sell';
+            
+            card.innerHTML = `
+                <div class="prediction-header">
+                    <div class="stock-symbol">${prediction.symbol}</div>
+                    <div class="prediction-type ${typeClass}">${prediction.action}</div>
+                </div>
+                <div class="prediction-details">
+                    <div class="price-info">
+                        <span>Current: $${prediction.current_price.toFixed(2)}</span>
+                        <span>Target: $${prediction.target_price.toFixed(2)}</span>
+                    </div>
+                    <div class="price-info">
+                        <span class="confidence">${Math.round(prediction.confidence * 100)}% confidence</span>
+                        <span style="color: ${prediction.expected_return >= 0 ? '#00ff88' : '#ff6b6b'}">
+                            ${prediction.expected_return >= 0 ? '+' : ''}${prediction.expected_return.toFixed(1)}%
+                        </span>
+                    </div>
+                    <p style="color: #b0b0b0; font-size: 0.9rem; margin-top: 0.5rem;">
+                        ${prediction.reasoning}
+                    </p>
+                </div>
+                <div class="comments-section">
+                    <div class="comments-header">
+                        <span class="comments-count">
+                            <i class="fas fa-comments"></i> <span id="count-${prediction.symbol}">0</span> comments
+                        </span>
+                        <button class="add-comment-btn" onclick="toggleCommentForm('${prediction.symbol}')">
+                            <i class="fas fa-plus"></i> Add Comment
+                        </button>
+                    </div>
+                    <div class="comment-form" id="form-${prediction.symbol}">
+                        <textarea class="comment-input" placeholder="Share your thoughts on this prediction..." id="input-${prediction.symbol}"></textarea>
+                        <div class="comment-actions">
+                            <button class="submit-comment" onclick="submitComment('${prediction.symbol}')">Post</button>
+                            <button class="cancel-comment" onclick="toggleCommentForm('${prediction.symbol}')">Cancel</button>
+                        </div>
+                    </div>
+                    <div class="comments-list" id="comments-${prediction.symbol}">
+                        <!-- Comments will be loaded here -->
+                    </div>
+                </div>
+            `;
+            
+            // Load existing comments
+            loadComments(prediction.symbol);
+            
+            return card;
+        }
+
+        // Load KOL opinions
+        async function loadKOLOpinions() {
+            try {
+                const response = await fetch('/api/kols/opinions');
+                const opinions = await response.json();
+                
+                const grid = document.getElementById('kolsGrid');
+                grid.innerHTML = '';
+                
+                opinions.forEach(opinion => {
+                    const card = createKOLCard(opinion);
+                    grid.appendChild(card);
+                });
+            } catch (error) {
+                console.error('Error loading KOL opinions:', error);
+                // Load mock data if API fails
+                loadMockKOLOpinions();
+            }
+        }
+
+        // Create KOL opinion card
+        function createKOLCard(opinion) {
+            const card = document.createElement('div');
+            card.className = 'kol-opinion';
+            
+            const sentimentClass = opinion.sentiment.toLowerCase();
+            
+            card.innerHTML = `
+                <div class="kol-header">
+                    <div class="kol-avatar">${opinion.name.charAt(0)}</div>
+                    <div class="kol-info">
+                        <h4>${opinion.name}</h4>
+                        <div class="kol-platform">
+                            <i class="fab fa-${opinion.platform}"></i> ${opinion.platform}
+                        </div>
+                    </div>
+                </div>
+                <div class="kol-content">${opinion.content}</div>
+                <div class="kol-meta">
+                    <span>${opinion.time}</span>
+                    <span class="kol-sentiment ${sentimentClass}">${opinion.sentiment}</span>
+                </div>
+            `;
+            
+            return card;
+        }
+
+        // Comment system functions
+        function toggleCommentForm(symbol) {
+            const form = document.getElementById(`form-${symbol}`);
+            form.classList.toggle('active');
+            
+            if (form.classList.contains('active')) {
+                document.getElementById(`input-${symbol}`).focus();
+            }
+        }
+
+        function submitComment(symbol) {
+            const input = document.getElementById(`input-${symbol}`);
+            const text = input.value.trim();
+            
+            if (!text) return;
+            
+            // Add comment to local storage and display
+            addComment(symbol, text);
+            input.value = '';
+            toggleCommentForm(symbol);
+        }
+
+        function addComment(symbol, text) {
+            const comments = getComments(symbol);
+            const newComment = {
+                id: Date.now(),
+                author: 'Anonymous Trader',
+                text: text,
+                time: new Date().toLocaleString()
+            };
+            
+            comments.unshift(newComment);
+            localStorage.setItem(`comments-${symbol}`, JSON.stringify(comments));
+            
+            displayComments(symbol, comments);
+            updateCommentCount(symbol, comments.length);
+        }
+
+        function getComments(symbol) {
+            const stored = localStorage.getItem(`comments-${symbol}`);
+            return stored ? JSON.parse(stored) : [];
+        }
+
+        function loadComments(symbol) {
+            const comments = getComments(symbol);
+            displayComments(symbol, comments);
+            updateCommentCount(symbol, comments.length);
+        }
+
+        function displayComments(symbol, comments) {
+            const container = document.getElementById(`comments-${symbol}`);
+            container.innerHTML = '';
+            
+            comments.slice(0, 3).forEach(comment => {
+                const commentEl = document.createElement('div');
+                commentEl.className = 'comment';
+                commentEl.innerHTML = `
+                    <div class="comment-author">${comment.author}</div>
+                    <div class="comment-text">${comment.text}</div>
+                    <div class="comment-time">${comment.time}</div>
+                `;
+                container.appendChild(commentEl);
+            });
+        }
+
+        function updateCommentCount(symbol, count) {
+            const countEl = document.getElementById(`count-${symbol}`);
+            if (countEl) {
+                countEl.textContent = count;
+            }
+        }
+
+        // Load mock KOL opinions if API fails
+        function loadMockKOLOpinions() {
+            const mockOpinions = [
+                {
+                    name: "CryptoKing",
+                    platform: "twitter",
+                    content: "TSLA looking strong here. The AI revolution is just beginning and Tesla is at the forefront. Expecting a breakout above $250 soon. 🚀",
+                    sentiment: "Bullish",
+                    time: "2 hours ago"
+                },
+                {
+                    name: "StockGuru",
+                    platform: "telegram",
+                    content: "AAPL earnings coming up. Historical data shows strong performance post-earnings. However, current market conditions suggest caution.",
+                    sentiment: "Neutral",
+                    time: "4 hours ago"
+                },
+                {
+                    name: "TradeMaster",
+                    platform: "twitter",
+                    content: "NVDA pullback presents a great buying opportunity. AI demand isn't going anywhere. This dip is a gift for long-term investors.",
+                    sentiment: "Bullish",
+                    time: "6 hours ago"
+                },
+                {
+                    name: "BearishBob",
+                    platform: "telegram",
+                    content: "Market looking overextended here. Fed policy uncertainty and geopolitical tensions suggest we might see a correction soon.",
+                    sentiment: "Bearish",
+                    time: "8 hours ago"
+                }
+            ];
+            
+            const grid = document.getElementById('kolsGrid');
+            grid.innerHTML = '';
+            
+            mockOpinions.forEach(opinion => {
+                const card = createKOLCard(opinion);
+                grid.appendChild(card);
+            });
+        }
+    </script>
+</body>
+</html>
+
