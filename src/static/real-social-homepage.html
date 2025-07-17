@@ -411,17 +411,19 @@
                     Live insights from real trading influencers, community engagement, and AI-powered predictions
                 </p>
                 <div class="hero-stats">
-                    <div class="stat-item">
-                        <div class="stat-number" id="live-opinions-count">0</div>
-                        <div class="stat-label">Live Opinions</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="active-sources-count">0</div>
-                        <div class="stat-label">Active Sources</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-number" id="avg-engagement-count">0</div>
-                        <div class="stat-label">Avg Engagement</div>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-number live-opinions-count">0</div>
+                            <div class="stat-label">Live Opinions</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number active-sources-count">0</div>
+                            <div class="stat-label">Active Sources</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-number avg-engagement-count">0</div>
+                            <div class="stat-label">Avg Engagement</div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -434,10 +436,9 @@
         
         <!-- Live Trending Ticker -->
         <div class="trending-section">
-            <div class="trending-header">
-                <i class="fas fa-fire"></i>
-                <span>Live Market Pulse</span>
-                <span class="last-update">Last updated: <span id="last-update-time">--:--:--</span></span>
+            <div class="market-pulse-header">
+                <h3><i class="fas fa-chart-line"></i> Live Market Pulse</h3>
+                <span class="last-updated">Last updated: <span class="last-updated-time">--:--:--</span></span>
             </div>
             <div class="trending-ticker">
                 <div class="ticker-content" id="liveTicker">
@@ -570,9 +571,22 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="chart-implementation.js"></script>
     <script src="ticker-implementation.js"></script>
-    <script src="header-scroll-behavior.js"></script>
+    <script src="multi-platform-interactions.js"></script>
     <script src="dynamic-platform-links.js"></script>
-    <script src="real-social-interactions.js"></script>
+    <script src="header-scroll-behavior.js"></script>
+    <script src="real-time-updates.js"></script>
+    
+    <script>
+        // Initialize the multi-platform social manager
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('🚀 Initializing AI Trading Platform...');
+            
+            // Initialize multi-platform social manager
+            window.multiPlatformManager = new MultiPlatformSocialManager();
+            
+            console.log('✅ AI Trading Platform initialized');
+        });
+    </script>
 </body>
 </html>
 

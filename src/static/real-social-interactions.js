@@ -78,31 +78,24 @@ class RealSocialManager {
         } catch (error) {
             console.error('Failed to load initial data:', error);
             this.updateConnectionStatus(false);
-        }
-    }
-
-    async loadRealOpinions() {
+          async loadRealOpinions() {
         try {
-            const response = await fetch('/api/real-social/opinions/all?limit=8');
+            // Use multi-platform API instead of real-social API
+            const response = await fetch('/api/multi-platform/opinions/all?limit=8');
             const data = await response.json();
             
-            if (data.success) {
-                this.renderRealOpinions(data.data);
-                this.updateLastUpdateTime();
+            if (data.success && data.opinions) {
+                this.renderRealOpinions(data.opinions);
+                console.log(`✅ Loaded ${data.opinions.length} multi-platform opinions`);
+            } else {
+                console.error('❌ Failed to load multi-platform opinions:', data.error);
+                this.renderErrorState();
             }
         } catch (error) {
-            console.error('Error loading real opinions:', error);
+            console.error('❌ Error loading multi-platform opinions:', error);
+            this.renderErrorState();
         }
-    }
-
-    renderRealOpinions(opinionsData) {
-        const container = document.getElementById('kol-opinions-container');
-        if (!container) return;
-
-        let html = '';
-        
-        // Render each category
-        Object.entries(opinionsData).forEach(([category, opinions]) => {
+    }Object.entries(opinionsData).forEach(([category, opinions]) => {
             if (this.currentAssetFilter === 'all' || this.currentAssetFilter === category) {
                 opinions.forEach(opinion => {
                     html += this.createOpinionCard(opinion, category);

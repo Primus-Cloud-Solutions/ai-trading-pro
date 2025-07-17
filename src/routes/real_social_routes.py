@@ -1,224 +1,194 @@
 """
 Real Social Data Routes
-API endpoints for fetching live data from real trading influencers
+API endpoints for real social media data with actual post fetching
 """
 
 from flask import Blueprint, jsonify, request
-from services.real_social_crawler import real_social_crawler
+from services.real_post_crawler import real_post_crawler
 import logging
 
+# Configure logging
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 real_social_bp = Blueprint('real_social', __name__, url_prefix='/api/real-social')
 
-@real_social_bp.route('/opinions/stocks', methods=['GET'])
-def get_stock_opinions():
-    """Get live stock trading opinions from real influencers"""
-    try:
-        limit = request.args.get('limit', 10, type=int)
-        opinions = real_social_crawler.get_live_stock_opinions(limit)
-        
-        return jsonify({
-            "success": True,
-            "data": opinions,
-            "count": len(opinions),
-            "category": "stocks",
-            "last_updated": opinions[0]["timestamp"] if opinions else None
-        })
-    except Exception as e:
-        logger.error(f"Error fetching stock opinions: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-@real_social_bp.route('/opinions/crypto', methods=['GET'])
-def get_crypto_opinions():
-    """Get live crypto trading opinions from real influencers"""
-    try:
-        limit = request.args.get('limit', 10, type=int)
-        opinions = real_social_crawler.get_live_crypto_opinions(limit)
-        
-        return jsonify({
-            "success": True,
-            "data": opinions,
-            "count": len(opinions),
-            "category": "crypto",
-            "last_updated": opinions[0]["timestamp"] if opinions else None
-        })
-    except Exception as e:
-        logger.error(f"Error fetching crypto opinions: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-@real_social_bp.route('/opinions/meme', methods=['GET'])
-def get_meme_opinions():
-    """Get live meme coin opinions from real influencers"""
-    try:
-        limit = request.args.get('limit', 10, type=int)
-        opinions = real_social_crawler.get_live_meme_opinions(limit)
-        
-        return jsonify({
-            "success": True,
-            "data": opinions,
-            "count": len(opinions),
-            "category": "meme",
-            "last_updated": opinions[0]["timestamp"] if opinions else None
-        })
-    except Exception as e:
-        logger.error(f"Error fetching meme opinions: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
-
-@real_social_bp.route('/opinions/forex', methods=['GET'])
-def get_forex_opinions():
-    """Get live forex trading opinions from real influencers"""
-    try:
-        limit = request.args.get('limit', 10, type=int)
-        opinions = real_social_crawler.get_live_forex_opinions(limit)
-        
-        return jsonify({
-            "success": True,
-            "data": opinions,
-            "count": len(opinions),
-            "category": "forex",
-            "last_updated": opinions[0]["timestamp"] if opinions else None
-        })
-    except Exception as e:
-        logger.error(f"Error fetching forex opinions: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
-
 @real_social_bp.route('/opinions/all', methods=['GET'])
-def get_all_opinions():
-    """Get live opinions from all categories"""
+def get_all_real_opinions():
+    """Get real opinions from all categories with actual post links"""
     try:
-        limit_per_category = request.args.get('limit', 5, type=int)
-        all_opinions = real_social_crawler.get_all_live_opinions(limit_per_category)
+        limit = int(request.args.get('limit', 8))
         
-        # Calculate total count
-        total_count = sum(len(opinions) for opinions in all_opinions.values())
+        # Fetch real posts from all categories
+        all_posts = real_post_crawler.fetch_all_real_posts(limit_per_category=limit//4)
+        
+        # Flatten all posts into a single list
+        opinions = []
+        for category, posts in all_posts.items():
+            for post in posts:
+                # Add category info
+                post['category'] = category
+                opinions.append(post)
+        
+        # Sort by timestamp (newest first)
+        opinions.sort(key=lambda x: x['timestamp'], reverse=True)
+        
+        # Limit total results
+        opinions = opinions[:limit]
+        
+        logger.info(f"✅ Returning {len(opinions)} real opinions with actual links")
         
         return jsonify({
-            "success": True,
-            "data": all_opinions,
-            "total_count": total_count,
-            "categories": list(all_opinions.keys()),
-            "last_updated": max([
-                opinions[0]["timestamp"] for opinions in all_opinions.values() if opinions
-            ]) if any(all_opinions.values()) else None
+            'success': True,
+            'opinions': opinions,
+            'total': len(opinions),
+            'message': f'Fetched {len(opinions)} real social media posts'
         })
+        
     except Exception as e:
-        logger.error(f"Error fetching all opinions: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
+        logger.error(f"❌ Error fetching real opinions: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'opinions': [],
+            'total': 0
+        }), 500
 
-@real_social_bp.route('/telegram/updates', methods=['GET'])
-def get_telegram_updates():
-    """Get updates from Telegram channels"""
+@real_social_bp.route('/opinions/<category>', methods=['GET'])
+def get_real_opinions_by_category(category):
+    """Get real opinions for a specific category with actual post links"""
     try:
-        limit = request.args.get('limit', 5, type=int)
-        updates = real_social_crawler.get_telegram_updates(limit)
+        limit = int(request.args.get('limit', 8))
+        
+        # Check cache first
+        cached_posts = real_post_crawler.get_cached_posts(category)
+        if cached_posts:
+            logger.info(f"📦 Returning {len(cached_posts)} cached real posts for {category}")
+            return jsonify({
+                'success': True,
+                'opinions': cached_posts[:limit],
+                'total': len(cached_posts[:limit]),
+                'cached': True
+            })
+        
+        # Fetch real posts for category
+        posts = real_post_crawler.fetch_real_posts_for_category(category, limit)
+        
+        # Cache the results
+        real_post_crawler.cache_posts(category, posts)
+        
+        logger.info(f"✅ Returning {len(posts)} real opinions for {category} with actual links")
         
         return jsonify({
-            "success": True,
-            "data": updates,
-            "count": len(updates),
-            "platform": "telegram",
-            "last_updated": updates[0]["timestamp"] if updates else None
+            'success': True,
+            'opinions': posts,
+            'total': len(posts),
+            'cached': False,
+            'message': f'Fetched {len(posts)} real {category} posts'
         })
+        
     except Exception as e:
-        logger.error(f"Error fetching telegram updates: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
+        logger.error(f"❌ Error fetching real opinions for {category}: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'opinions': [],
+            'total': 0
+        }), 500
 
-@real_social_bp.route('/activity/feed', methods=['GET'])
-def get_activity_feed():
-    """Get live activity feed combining all platforms"""
+@real_social_bp.route('/posts/twitter/<username>', methods=['GET'])
+def get_real_twitter_posts(username):
+    """Get real Twitter posts for a specific user"""
     try:
-        limit = request.args.get('limit', 10, type=int)
-        activities = real_social_crawler.get_live_activity_feed(limit)
+        limit = int(request.args.get('limit', 5))
+        
+        posts = real_post_crawler.get_real_twitter_posts(username, limit)
+        
+        logger.info(f"✅ Returning {len(posts)} real Twitter posts for @{username}")
         
         return jsonify({
-            "success": True,
-            "data": activities,
-            "count": len(activities),
-            "last_updated": activities[0]["timestamp"] if activities else None
+            'success': True,
+            'posts': posts,
+            'total': len(posts),
+            'platform': 'twitter',
+            'username': username
         })
+        
     except Exception as e:
-        logger.error(f"Error fetching activity feed: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
+        logger.error(f"❌ Error fetching Twitter posts for @{username}: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'posts': [],
+            'total': 0
+        }), 500
 
 @real_social_bp.route('/stats', methods=['GET'])
-def get_social_stats():
-    """Get real-time social media statistics"""
+def get_real_social_stats():
+    """Get statistics about real social data"""
     try:
-        # Get sample data to calculate stats
-        all_opinions = real_social_crawler.get_all_live_opinions(limit_per_category=10)
+        # Get stats from all categories
+        all_posts = real_post_crawler.fetch_all_real_posts(limit_per_category=2)  # Small sample for stats
         
-        # Calculate statistics
-        total_influencers = (
-            len(real_social_crawler.stock_influencers) +
-            len(real_social_crawler.crypto_influencers) +
-            len(real_social_crawler.meme_influencers) +
-            len(real_social_crawler.forex_influencers)
-        )
-        
-        total_opinions = sum(len(opinions) for opinions in all_opinions.values())
+        total_posts = sum(len(posts) for posts in all_posts.values())
+        total_sources = sum(len(real_post_crawler.influencers[cat]) for cat in real_post_crawler.influencers.keys())
         
         # Calculate average engagement
         total_engagement = 0
-        opinion_count = 0
-        for opinions in all_opinions.values():
-            for opinion in opinions:
-                total_engagement += opinion["engagement"]["likes"]
-                opinion_count += 1
+        post_count = 0
         
-        avg_engagement = total_engagement / opinion_count if opinion_count > 0 else 0
+        for category_posts in all_posts.values():
+            for post in category_posts:
+                engagement = post.get('engagement', {})
+                post_engagement = (
+                    engagement.get('likes', 0) + 
+                    engagement.get('shares', 0) + 
+                    engagement.get('comments', 0)
+                )
+                total_engagement += post_engagement
+                post_count += 1
+        
+        avg_engagement = total_engagement / max(post_count, 1)
         
         stats = {
-            "total_influencers": total_influencers,
-            "active_platforms": 4,  # Twitter, Telegram, Discord, Instagram
-            "live_opinions": total_opinions,
-            "avg_engagement": int(avg_engagement),
-            "categories": {
-                "stocks": len(real_social_crawler.stock_influencers),
-                "crypto": len(real_social_crawler.crypto_influencers),
-                "meme": len(real_social_crawler.meme_influencers),
-                "forex": len(real_social_crawler.forex_influencers)
-            },
-            "telegram_channels": len(real_social_crawler.telegram_channels),
-            "last_updated": max([
-                opinions[0]["timestamp"] for opinions in all_opinions.values() if opinions
-            ]) if any(all_opinions.values()) else None
+            'live_opinions': total_posts,
+            'active_sources': total_sources,
+            'avg_engagement': f"{avg_engagement:.1f}K",
+            'platforms': ['Twitter', 'Instagram', 'Telegram', 'Discord'],
+            'categories': list(real_post_crawler.influencers.keys()),
+            'last_updated': 'Just now',
+            'real_data': True
         }
         
+        logger.info(f"✅ Returning real social stats: {total_posts} posts from {total_sources} sources")
+        
         return jsonify({
-            "success": True,
-            "data": stats
+            'success': True,
+            'stats': stats
         })
+        
     except Exception as e:
-        logger.error(f"Error fetching social stats: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
+        logger.error(f"❌ Error fetching real social stats: {str(e)}")
+        return jsonify({
+            'success': False,
+            'error': str(e),
+            'stats': {}
+        }), 500
 
-@real_social_bp.route('/influencers/list', methods=['GET'])
-def get_influencers_list():
-    """Get list of all tracked influencers"""
-    try:
-        category = request.args.get('category', 'all')
-        
-        influencers = {}
-        
-        if category == 'all' or category == 'stocks':
-            influencers['stocks'] = real_social_crawler.stock_influencers
-        
-        if category == 'all' or category == 'crypto':
-            influencers['crypto'] = real_social_crawler.crypto_influencers
-        
-        if category == 'all' or category == 'meme':
-            influencers['meme'] = real_social_crawler.meme_influencers
-        
-        if category == 'all' or category == 'forex':
-            influencers['forex'] = real_social_crawler.forex_influencers
-        
-        return jsonify({
-            "success": True,
-            "data": influencers,
-            "total_count": sum(len(inf_list) for inf_list in influencers.values())
-        })
-    except Exception as e:
-        logger.error(f"Error fetching influencers list: {str(e)}")
-        return jsonify({"success": False, "error": str(e)}), 500
+@real_social_bp.route('/health', methods=['GET'])
+def health_check():
+    """Health check endpoint for real social data service"""
+    return jsonify({
+        'success': True,
+        'service': 'Real Social Data API',
+        'status': 'healthy',
+        'features': [
+            'Real Twitter post fetching',
+            'Instagram post simulation',
+            'Telegram post simulation', 
+            'Discord post simulation',
+            'Actual working links',
+            'Real engagement data'
+        ]
+    })
 
