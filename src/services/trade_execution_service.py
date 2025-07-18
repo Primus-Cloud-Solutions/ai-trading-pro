@@ -23,8 +23,8 @@ class TradeExecutionService:
         self.logger = logging.getLogger(__name__)
     
     def execute_market_order(self, user_id: int, symbol: str, side: str, quantity: float, 
-                           ai_signal_id: str = None, confidence: float = None, 
-                           strategy: str = None, is_automated: bool = False) -> Dict:
+                           ai_signal_id: Optional[str] = None, confidence: Optional[float] = None, 
+                           strategy: Optional[str] = None, is_automated: bool = False) -> Dict:
         """Execute a market order"""
         try:
             # Get user and portfolio
