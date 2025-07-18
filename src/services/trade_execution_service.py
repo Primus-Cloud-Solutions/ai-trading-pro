@@ -74,6 +74,11 @@ class TradeExecutionService:
             
             db.session.add(order)
             
+            from models.trading import Asset
+            asset = Asset.query.filter_by(symbol=symbol).first()
+            if not asset:
+                return {'success': False, 'error': f'Asset {symbol} not found'}
+            
             # Update portfolio and positions
             if side.lower() == 'buy':
                 # Deduct from balance
@@ -82,15 +87,15 @@ class TradeExecutionService:
                 # Add or update position
                 position = Position.query.filter_by(
                     portfolio_id=portfolio.id, 
-                    symbol=symbol, 
-                    is_active=True
+                    asset_id=asset.id, 
+                    is_open=True
                 ).first()
                 
                 if position:
                     # Update existing position
-                    total_value = (position.quantity * position.average_price) + order_value
+                    total_value = (position.quantity * position.entry_price) + order_value
                     total_quantity = position.quantity + quantity
-                    position.average_price = total_value / total_quantity
+                    position.entry_price = total_value / total_quantity
                     position.quantity = total_quantity
                     position.current_price = current_price
                     position.updated_at = datetime.utcnow()
@@ -98,11 +103,11 @@ class TradeExecutionService:
                     # Create new position
                     position = Position(
                         portfolio_id=portfolio.id,
-                        symbol=symbol,
+                        asset_id=asset.id,
                         quantity=quantity,
-                        average_price=current_price,
+                        entry_price=current_price,
                         current_price=current_price,
-                        is_active=True
+                        is_open=True
                     )
                     db.session.add(position)
             
@@ -113,8 +118,8 @@ class TradeExecutionService:
                 # Update position
                 position = Position.query.filter_by(
                     portfolio_id=portfolio.id, 
-                    symbol=symbol, 
-                    is_active=True
+                    asset_id=asset.id, 
+                    is_open=True
                 ).first()
                 
                 if position:
@@ -125,7 +130,7 @@ class TradeExecutionService:
                         
                         # Close position if quantity is zero
                         if position.quantity <= 0:
-                            position.is_active = False
+                            position.is_open = False
                     else:
                         return {'success': False, 'error': 'Insufficient position size'}
                 else:
@@ -305,7 +310,7 @@ class TradeExecutionService:
         try:
             total_value = portfolio.balance
             
-            positions = Position.query.filter_by(portfolio_id=portfolio.id, is_active=True).all()
+            positions = Position.query.filter_by(portfolio_id=portfolio.id, is_open=True).all()
             for position in positions:
                 total_value += position.quantity * position.current_price
             

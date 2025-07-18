@@ -47,7 +47,6 @@ class FundManagementService:
                 amount=amount,
                 payment_method=payment_method,
                 status='completed',
-                transaction_id=transaction_id or f"demo_{int(datetime.utcnow().timestamp())}",
                 description=f"Fund deposit via {payment_method}"
             )
             
@@ -93,7 +92,6 @@ class FundManagementService:
                 amount=amount,
                 payment_method=withdrawal_method,
                 status='completed',
-                transaction_id=f"demo_withdraw_{int(datetime.utcnow().timestamp())}",
                 description=f"Fund withdrawal via {withdrawal_method}"
             )
             

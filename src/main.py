@@ -28,6 +28,7 @@ from routes.auth_routes import auth_bp
 from routes.trading_routes_fixed import trading_bp
 from routes.trading_execution_routes import trading_execution_bp
 from routes.real_social_routes import real_social_bp
+from routes.fund_management_routes import fund_management_bp
 
 # Import services
 from services.deployment_trading_engine import advanced_trading_engine
@@ -82,6 +83,7 @@ def create_app():
     app.register_blueprint(auth_bp)
     app.register_blueprint(trading_execution_bp)
     app.register_blueprint(real_social_bp)
+    app.register_blueprint(fund_management_bp)
     
     # Import and register enhanced trading routes
     from routes.enhanced_trading_routes import enhanced_trading_bp
@@ -99,8 +101,7 @@ def create_app():
     from routes.multi_platform_routes import multi_platform_bp
     app.register_blueprint(multi_platform_bp)
     
-    # Import and register trading routes
-    from routes.trading_routes import trading_bp
+    # Import and register trading routes (using fixed version)
     app.register_blueprint(trading_bp)
     
     # Import and register bot routes
