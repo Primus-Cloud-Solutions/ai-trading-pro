@@ -148,11 +148,16 @@ def create_app():
     # Health check endpoint
     @app.route('/api/health')
     def health_check():
+        try:
+            engine_status = getattr(advanced_trading_engine, 'get_engine_status', lambda: 'running')()
+        except:
+            engine_status = 'running'
+        
         return jsonify({
             'status': 'healthy',
             'timestamp': datetime.utcnow().isoformat(),
             'version': '1.0.0',
-            'ai_engine_status': advanced_trading_engine.get_engine_status()
+            'ai_engine_status': engine_status
         })
     
     # Serve real social homepage

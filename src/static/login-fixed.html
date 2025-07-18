@@ -182,13 +182,13 @@
 
         <form id="loginForm">
             <div class="form-group">
-                <label class="form-label" for="email">Email or Username</label>
-                <input type="text" id="email" class="form-input" placeholder="Enter your email or username" required>
+                <label class="form-label" for="email_or_username">Email or Username</label>
+                <input type="text" id="email_or_username" name="email_or_username" class="form-input" placeholder="Enter your email or username" required>
             </div>
 
             <div class="form-group">
                 <label class="form-label" for="password">Password</label>
-                <input type="password" id="password" class="form-input" placeholder="Enter your password" required>
+                <input type="password" id="password" name="password" class="form-input" placeholder="Enter your password" required>
             </div>
 
             <button type="submit" class="login-btn" id="loginBtn">
@@ -214,7 +214,7 @@
         document.getElementById('loginForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
+            const email_or_username = document.getElementById('email_or_username').value;
             const password = document.getElementById('password').value;
             const loginBtn = document.getElementById('loginBtn');
             const loading = document.getElementById('loading');
@@ -236,7 +236,7 @@
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify({
-                        email: email,
+                        email_or_username: email_or_username,
                         password: password
                     })
                 });
@@ -249,9 +249,15 @@
                     successMessage.textContent = 'Login successful! Redirecting to dashboard...';
                     successMessage.style.display = 'block';
                     
-                    // Store user info if provided
+                    // Store user info and tokens if provided
                     if (data.user) {
                         localStorage.setItem('user', JSON.stringify(data.user));
+                        if (data.user.access_token) {
+                            localStorage.setItem('access_token', data.user.access_token);
+                        }
+                        if (data.user.refresh_token) {
+                            localStorage.setItem('refresh_token', data.user.refresh_token);
+                        }
                     }
                     
                     // Redirect to dashboard after a short delay
@@ -278,7 +284,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             const urlParams = new URLSearchParams(window.location.search);
             if (urlParams.get('demo') === 'true') {
-                document.getElementById('email').value = 'admin@aitradingpro.com';
+                document.getElementById('email_or_username').value = 'admin@aitradingpro.com';
                 document.getElementById('password').value = 'admin123';
             }
         });

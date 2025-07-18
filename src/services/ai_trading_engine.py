@@ -210,7 +210,12 @@ class AITradingEngine:
             
             # Make prediction
             latest_features = features.iloc[-1:].values
-            predicted_price = model.predict(latest_features)[0]
+            scaler = model['scaler']
+            latest_features_scaled = scaler.transform(latest_features)
+            
+            rf_pred = model['rf_model'].predict(latest_features_scaled)[0]
+            gb_pred = model['gb_model'].predict(latest_features_scaled)[0]
+            predicted_price = (rf_pred + gb_pred) / 2
             current_price = asset.current_price or historical_data['close'].iloc[-1]
             
             # Calculate price change prediction
@@ -302,8 +307,8 @@ class AITradingEngine:
             
             # RSI
             delta = df['Close'].diff()
-            gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-            loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+            gain = delta.where(delta > 0, 0).rolling(window=14).mean()
+            loss = (-delta).where(delta < 0, 0).rolling(window=14).mean()
             rs = gain / loss
             indicators['rsi'] = 100 - (100 / (1 + rs))
             

@@ -8,7 +8,7 @@ import json
 import random
 import time
 from datetime import datetime, timedelta
-from typing import List, Dict, Any
+from typing import List, Dict, Any, Optional
 import logging
 
 logger = logging.getLogger(__name__)
@@ -119,7 +119,7 @@ class RealSocialCrawler:
             "USD/CNY trade tensions creating pressure. PBOC intervention likely."
         ]
         
-    def generate_platform_url(self, influencer: Dict, category: str, opinion_content: str = "", timestamp: float = None) -> str:
+    def generate_platform_url(self, influencer: Dict, category: str, opinion_content: str = "", timestamp: Optional[float] = None) -> str:
         """Generate realistic platform URL based on influencer, category, and opinion content"""
         platform = influencer.get("platform", "twitter")
         handle = influencer["handle"].replace("@", "")
